@@ -11,7 +11,7 @@ function love.load()
 
     wf = require 'libs/windfield'
 
-    world = wf.newWorld(0, 900, false)
+    world = wf.newWorld(0, 560, false)
 
     world:addCollisionClass('Platform')
     world:addCollisionClass('Non-collide')
@@ -22,12 +22,13 @@ function love.load()
     player:setType('dynamic')
     player:setFixedRotation(true)
     player.speed = 300
+    player.direction = 1
     player.animation = animations.idle
 
     platform = world:newRectangleCollider(0,500,3000,1200, {collision_class = 'Platform'})
     platform:setType('static')
 
-    danger = world:newRectangleCollider(500, 400, 100, 100, {collision_class = 'Danger'})
+    danger = world:newRectangleCollider(500, 500, 100, 30, {collision_class = 'Danger'})
     danger:setType('dynamic')
 
 end
@@ -40,10 +41,12 @@ function love.update(dt)
 
         if love.keyboard.isDown('left') then
             player.animation = animations.run
+            player.direction = -1
             player.setX(player, px - player.speed * dt)
 
         elseif love.keyboard.isDown('right') then
             player.animation = animations.run
+            player.direction = 1
             player.setX(player, px + player.speed * dt)
 
         else
@@ -62,7 +65,8 @@ end
 function love.draw()
     if player.body then
         local px, py = player:getPosition()
-        player.animation:draw(sprites.player, px - 25, py - 70)
+        player.animation:draw(sprites.player, px - 25, py - 70, nil, 1 * player.direction, 1)
+    
     end
 
     world:draw()

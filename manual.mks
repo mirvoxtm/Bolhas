@@ -535,6 +535,45 @@ LÖVE é um framework para a criação de jogos 2D em Lua. Ele fornece uma séri
         player.animation:update(dt)
     end
     (/code)
+    Isso irá alterar a animação do jogador de acordo com a direção que ele está se movendo. Se ele estiver parado, a animação será a de (i)idle(/i), e se ele estiver se movendo, a animação será a de (i)run(/i). 
+
+    Por fim, vamos inverter a imagem do jogador quando ele estiver indo para a esquerda. Para isso, vamos adicionar a seguinte linha de código em nosso (k)love.draw()(/k), mas antes, vamos adicionar uma nova (b)propriedade(/b) ao player:
+    (code)
+        player.direction = 1 -- 1 para direita, -1 para esquerda.
+    (/code)
+
+    E então adicionamos a seguinte linha de código em nosso (k)love.update()(/k):
+    (code)
+    function love.update(dt)
+        world:update(dt)
+
+        if player.body then
+            local px, py = player:getPosition()
+
+            if love.keyboard.isDown('left') then
+                player.animation = animations.run
+                player.direction = -1
+                player.setX(player, px - player.speed * dt)
+
+            elseif love.keyboard.isDown('right') then
+                player.animation = animations.run
+                player.direction = 1
+                player.setX(player, px + player.speed * dt)
+
+            else
+                player.animation = animations.idle
+
+            end
+
+            if player:enter('Danger') then
+                player:destroy()
+            end
+        end
+
+        player.animation:update(dt)
+    end
+    (/code)
+
     (/chap)
 
 
