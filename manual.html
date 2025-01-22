@@ -1,0 +1,945 @@
+<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Programando com Lua e LÖVE Framework</title>  <style>    body {      margin: 0;      padding: 0;      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;      background-color: white;      color: #333;      text-align: justify;      text-justify: inter-word;    }        .container {      max-width: 800px;      margin: 0 auto;      padding: 2em;      background-color: #fff;    }        .container h1, .container h2, .container h3 {      text-align: left;      margin-top: 1.2em;      margin-bottom: 0.8em;    }        .container p {      text-align: justify;      line-height: 1.6;      margin: 1em 0;    }         details {            margin-left: 0px;             margin-top: 10px;             margin-bottom: 0px;         }         summary {             padding-left: -20px;             cursor: pointer;             font-weight: bold;             padding-top: 5px;             outline: none;         }         details > div, details > details, details > summary {             margin-left: 10px;             padding-top: -25px;         }     img {      max-width: 100%;      height: auto;      display: block;      margin: 1em auto;    }        pre {      background: #272822;      color: #f8f8f2;      padding: 1em;      overflow-x: auto;      border-radius: 4px;      margin: 1em 0;    }    code {      background: #f4f4f4;      padding: 0.2em 0.4em;      border-radius: 4px;    }  </style></head><body><div class="container"><h1>Programando com Lua e LÖVE Framework</h1>
+<br>
+
+<img src="res/love2d.png" alt="Love2D Game Engine">
+
+<br>
+
+
+<br><hr><br>
+
+
+<br>
+<strong>Documentações Úteis:</strong>
+<br>
+
+<br>
+1. 
+<a href="https://syntaxstation.com/lua.html">Síntaxe Básica da Linguagem Lua.</a>
+
+<br>
+2. 
+<a href="https://love2d.org/wiki/Main_Page">LÖVE Wiki - Documentação do LÖVE.</a>
+
+<br>
+3. 
+<a href="https://github.com/a327ex/windfield/blob/master/README.md">Windfield - Documentação e Readme.</a>
+
+<br>
+
+
+<br><hr><br>
+
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<div class="chapter"><h2> 1. Introdução Básica</h2>
+
+<br>
+
+<br>
+    Essa parte do documento serve apenas para dar uma introdução geral à linguagem Lua.
+<br>
+    
+<br>
+    
+<div class="chapter"><h2> 1.1. Variáveis</h2>
+
+<br>
+        Variáveis em Lua são declaradas da seguinte forma:
+<br>
+        <pre>
+var = "Olá, Mundo!"</pre>
+
+<br>
+        A linguagem é <strong>fracamente tipada</strong>, ou seja, não precisamos declarar o tipo de dado, observe:
+<br>
+        <pre>
+
+        myNum = 100                  --Number
+        myOtherNum = 20.18           --Number
+        myString = "Hello World!"    --String
+        myBool = true                --Boolean
+        </pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 1.2. Condições</h2>
+
+<br>
+        As condicionais são feitas com a seguinte sintáxe:
+<br>
+        <pre>
+
+        if myNum == 0 then
+            myNum = myNum + 1
+        end
+        </pre>
+
+<br>
+        Também temos o <code>if-then-else</code> e o <code>if-then-elseif-then-else</code>.
+<br>
+        <pre>
+
+        if myNum > 1 then
+            result = "myNum is greater than 1"
+        elseif myNum < 1 then
+            result = "myNum is less than 1"
+        else
+            result = "myNum is equal to 1"
+        end
+        </pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 1.3. Loops</h2>
+
+<br>
+        Lua tem dois tipos de Loops: While e For.
+<br>
+        <pre>
+
+        while contador <= 5 do
+            print(contador)
+            contador = contador + 1
+        end
+        </pre>
+
+<br>
+        O <code>for</code> já é um pouco mais exótico, tendo uma sintáxe bem diferente da linguagem C, mas ainda seguindo o básico de <code>variável, limite e step/passo</code>.
+<br>
+        <pre>
+
+        for i = 1, 3, 1 do
+            print(i)
+        end
+        </pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 1.4. Funções</h2>
+
+<br>
+        As funções em Lua são criadas com a keyword <code>function</code>.
+<br>
+        <pre>
+
+        function increaseX(x)
+            return x + 1
+        end
+        </pre>
+
+<br>
+        E as mesmas são instanciadas com:
+<br>
+        <pre>
+
+        increaseX(10)
+        increaseX(var)
+        </pre>
+
+<br>
+        Podemos também fazer funções em uma única linha assim:
+<br>
+        <pre>
+function pow(base, exp) return base^exp end</pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 1.5. Variáveis Locais</h2>
+
+<br>
+        Variáveis <em>locais</em> devem ser <em>definidas como tal</em> com a keyword <code>local</code>.
+<br>
+        <pre>
+
+        function foo(x)
+            local var = x + 5
+            return var / 2
+        end
+        </pre>
+
+<br>
+        Caso contrário, ela será <em>automaticamente definida como global</em>.
+<br>
+    </div>
+
+<br>
+</div>
+
+<br>
+
+<div class="chapter"><h2> 2. Tables</h2>
+
+<br>
+    As <strong>Tables</strong> da linguagem Lua são como <em>arrays</em>, porém diferentes em vários aspectos. Instanciamos uma table vazia da seguinte maneira:
+<br>
+    <pre>
+table = {}</pre>
+
+<br>
+    E podemos fazer uma <strong>table</strong> com valores do seguinte modo:
+<br>
+    <pre>
+table = {10, 20, 30}</pre>
+
+<br>
+    
+<div class="chapter"><h2> 2.1. Pegando valores de uma Table</h2>
+
+<br>
+        Pegamos um valor de uma table com a seguinte sintaxe:
+<br>
+        <pre>
+table[2] -- Retorna 20</pre>
+
+<br>
+        O motivo do retorno ser 20 e não 30 se dá ao fato que em Lua o índice das Tables começam em 1, e não em 0.
+<br>
+    </div>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+    
+<div class="chapter"><h2> 2.2. Inserindo valores em uma Table</h2>
+
+<br>
+        Podemos inserir valores na nossa table de variadas formas. A mais comum é usando a função <code>table.insert()</code>:
+<br>
+        <pre>
+table.insert(table, 50)</pre>
+
+<br>
+        Porém, podemos também usar <span style="text-decoration:underline">chaves</span> nas tables, além de <strong>propriedades</strong>, tornando-os algo similar aos JSONs.
+<br>
+        <pre>
+
+        table["nome"] = "João"                -- Exemplo com chaves
+        table.profissão = "Professor"         -- Exemplo de propriedade
+        </pre>
+
+<br>
+        No caso das <strong>propriedades</strong>, é possível associar inclusive funções à elas. Observe o exemplo:
+<br>
+        <pre>
+
+        -- Declarando uma função:
+
+        function andar(x, y)
+            print("Andando para as coordenadas:", x, y)
+        end
+
+        -- Criando uma table e uma propriedade:
+
+        pessoa = {}
+        pessoa.andar = andar
+        
+        -- Chamando a função:
+
+        pessoa.andar(10, 20) -- Saída: "Andando para as coordenadas: 10 20"
+        </pre>
+
+<br>
+
+<br>
+        
+<div class="chapter"><h2> 2.2.1. Usando Tables como Objetos</h2>
+
+<br>
+            Usando as <strong>propriedades</strong> podemos usar tables essencialmente como objetos, atribuindo funções e propriedades à elas. Veja o exemplo:
+<br>
+            <pre>
+
+            -- Criando um objeto:
+
+            pessoa = {}
+
+            -- Adicionando propriedades:
+
+            pessoa.nome = "João"
+            pessoa.idade = 30
+
+            -- Adicionando funções:
+
+            function pessoa.andar(x, y)
+                print("Andando para as coordenadas:", x, y)
+            end
+
+            -- Chamando a função:
+
+            pessoa.andar(10, 20) -- Saída: "Andando para as coordenadas: 10 20"
+            </pre>
+
+<br>
+            Isso será útil para a criação de jogos com o LOVE, onde podemos criar objetos para os personagens, inimigos, etc. de forma mais organizada.
+<br>
+        </div>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 2.3. Iterando por tables</h2>
+
+<br>
+        Podemos iterar por uma table e seus valores usando o loop <code>for-in</code> com a função <code>ipairs()</code>:
+<br>
+        <pre>
+
+        for index, value in ipairs(table) do
+            print(index)
+            print(value)
+        end
+        </pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 2.4. Tables Aninhadas</h2>
+
+<br>
+        Podemos ter tables dentro de tables, tornando-as aninhadas. Veja o exemplo:
+<br>
+        <pre>
+
+        table = {
+            {10, 20, 30},
+            {40, 50, 60},
+            {70, 80, 90}
+        }
+        </pre>
+
+<br>
+        Para acessar um valor de uma table aninhada, fazemos:
+<br>
+        <pre>
+table[2][3] -- Retorna 60</pre>
+
+<br>
+    </div>
+
+<br>
+</div>
+
+<br>
+
+
+<br><hr><br>
+
+
+<br>
+
+<div class="chapter"><h2> 3. Usando LÖVE</h2>
+
+<br>
+LÖVE é um framework para a criação de jogos 2D em Lua. Ele fornece uma série de ferramentas e funções que facilitam o desenvolvimento de jogos, como manipulação de gráficos, áudio, física e entrada do usuário.
+<br>
+
+<br>
+    
+<div class="chapter"><h2> 3.1. Instalando LÖVE</h2>
+
+<br>
+        Para começar a usar o LÖVE, você precisa instalá-lo no seu sistema. Você pode baixar a versão mais recente do site oficial: 
+<a href="https://love2d.org/"></a>
+.
+<br>
+        Após a instalação, você pode verificar se tudo está funcionando corretamente executando o comando:
+<br>
+        <pre>
+love --version</pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 3.2. Estrutura Básica de um Projeto LÖVE</h2>
+
+<br>
+        Um projeto LÖVE geralmente consiste em um arquivo principal chamado <em>main.lua</em> e outros arquivos Lua e recursos (imagens, sons, etc.) necessários para o jogo. O arquivo <em>main.lua</em> deve conter pelo menos três funções principais:
+<br>
+        <pre>
+
+        function love.load()
+            -- Inicialização do jogo
+        end
+
+        function love.update(dt)
+            -- Atualização do estado do jogo a cada frame.
+        end
+
+        function love.draw()
+            -- Desenho de gráficos na tela a cada frame.
+        end
+        </pre>
+
+<br>
+        Podemos ver melhor como essas funções funcionam com o seguinte exemplo usando <code>number</code>:
+<br>
+        <pre>
+
+        function love.load()
+            number = 0
+        end
+
+        function love.update(dt)
+            number = number + 1
+        end
+
+        function love.draw()
+            love.graphics.print(number)
+        end
+        </pre>
+
+<br>
+
+<br>
+        Note que ao executarmos isso, nosso "jogo" irá mostrar a variável number crescendo de 0 à infinito a cada frame.
+<br>
+        
+<img src="res/nums.png" alt="Numeros Infinitos no "Jogo"">
+
+<br>
+
+<br>
+        
+<div class="chapter"><h2> 3.3. Desenhando Gráficos</h2>
+
+<br>
+        Vamos iniciar com elementos simples para serem desenhados em nossa tela. Usaremos a função <code>love.draw()</code> e vamos desenhar um simples retângulo com a função <code>love.graphics.rectangle()</code>, ela recebe uma série de parâmetros, sendo eles <code>mode, x, y, width e height</code>:
+<br>
+        <pre>
+
+        function love.draw()
+            -- mode pode ser "fill" ou "line"
+            love.graphics.rectangle("fill", 0, 0, 100, 200)
+        end
+        </pre>
+
+<br>
+        Com isso, temos um retângulo em nosso jogo, veja:
+<br>
+        
+<img src="res/ret.png" alt="Retângulo no "Jogo"">
+
+<br>
+        Com isso, temos a base para começar a criar nossos jogos com o LÖVE. No proximo capitulo iremos começar a desenvolver um jogo de plataforma.
+<br>
+        </div>
+
+<br>
+    </div>
+
+<br>
+</div>
+
+<br>
+
+<br>
+
+<div class="chapter"><h2> 4. Desenvolvendo um jogo de plataforma com LOVE</h2>
+
+<br>
+    Para iniciarmos o desenvolvimento de um jogo de plataforma usando o LOVE, precisamos primeiro nos preocupar com a física do jogo. Por mais que o LOVE tenha um módulo para isso, usaremos uma biblioteca que facilita o processo chamada <code>windfield</code>.
+<br>
+
+<br>
+    O <code>windfield</code> pode ser 
+<a href="https://github.com/a327ex/windfield">baixado aqui.</a>
+ Após baixar, extraia o arquivo e coloque a pasta <em>windfield</em> na pasta do seu projeto dentro de uma pasta chamada <em>libs</em>. Feito isso, vamos importar a biblioteca no nosso arquivo <em>main.lua</em>:
+<br>
+
+<br>
+    <pre>
+
+    function love.load()
+        wf = require 'libs/windfield'
+    end
+    </pre>
+
+<br>
+
+<br>
+    O primeiro passo para trabalhar com o windfield é iniciar um mundo físico. Vamos fazer isso no <code>love.load()</code>:
+<br>
+    <pre>
+
+    function love.load()
+        wf = require 'libs/windfield'
+        world = wf.newWorld(0, 800, true)
+    end
+    </pre>
+
+<br>
+
+<br>
+    
+<div class="chapter"><h2> 4.1. Fisica Básica com o Windfield</h2>
+
+<br>
+
+<br>
+        O primeiro parâmetro do <code>newWorld()</code> é a gravidade, o segundo é a velocidade máxima de um corpo e o terceiro é se o mundo é sleepable ou não. Sleepable significa que os corpos que não estão se movendo não serão atualizados, economizando recursos.
+<br>
+
+<br>
+        Agora que temos um mundo físico, vamos criar um corpo para o nosso jogador. Vamos fazer isso no <code>love.load()</code>:
+<br>
+        <pre>
+
+        function love.load()
+            wf = require 'libs/windfield'
+            world = wf.newWorld(0, 800, true)
+
+            player = world:newRectangleCollider(100, 100, 50, 50)
+        end
+        </pre>
+
+<br>
+
+<br>
+        O <code>newRectangleCollider()</code> cria um corpo retangular com os parâmetros <code>x, y, width e height</code>. Agora que temos um jogador, vamos desenhá-lo na tela. Vamos fazer isso no <code>love.draw()</code>:
+<br>
+        <pre>
+
+        function love.update(dt)
+            world:update(dt)
+        end
+
+        function love.draw()
+            player:draw()
+        end
+        </pre>
+
+<br>
+        O <code>world:update()</code> atualiza o mundo físico e o <code>player:draw()</code> desenha o jogador na tela.
+<br>
+        No caso, a função <code>player:draw</code> não está desenhando o player em sí, mas sim a sua <em>colisão</em>.
+<br>
+
+<br>
+        Podemos inclusive testar a física utilizando um <code>platform = newCircleCollider() da seguinte forma:</code>
+<br>
+        <pre>
+
+        function love.load()
+            wf = require 'libs/windfield'
+            world = wf.newWorld(0, 800, true)
+
+            player = world:newRectangleCollider(100, 100, 30, 50)
+            player:setType('dynamic')
+            platform = world:newCircleCollider(0,300,300)
+            platform:setType('static')
+        end
+        </pre>
+
+<br>
+
+<br>
+        Aqui, criamos uma plataforma circular e a colocamos no canto inferior esquerdo da tela. O <code>setType('static')</code> define que a plataforma é estática, ou seja, não se move. Já <code>player:setType('dynamic')</code> define que o jogador é dinâmico, ou seja, ele se move e é afetado pela física. Também temos o <code>setType('kinetic')</code> que é um corpo que não é afetado pela gravidade, mas é afetado por colisões.
+<br>
+
+<br>
+        
+<img src="res/fisica.jpeg" alt="Física no "Jogo"">
+
+<br>
+
+<br>
+        Vamos adicionar mais um retângulo para, ao invés de nosso "<em>player</em>" cair, ele colidir com o retângulo. Vamos fazer isso no <code>love.load()</code>:
+<br>
+        <pre>
+
+        function love.load()
+            wf = require 'libs/windfield'
+            world = wf.newWorld(0, 400, true)
+
+            player = world:newRectangleCollider(100, 100, 30, 50)
+            player:setType('dynamic')
+            
+            platform = world:newCircleCollider(0,300,300)
+            platform:setType('static')
+
+            platform = world:newRectangleCollider(0,300,1300,1500)
+            platform:setType('static')
+        end
+        </pre>
+
+<br>
+
+<br>
+        
+<img src="res/fisica2.jpeg" alt="Física no "Jogo"">
+
+<br>
+        </div>
+
+<br>
+
+<br>
+    
+<div class="chapter"><h2> Adicionando Movimentação e Salto</h2>
+
+<br>
+    Vamos fazer com que nosso <code>player</code> se mexa e salte de acordo com as setas do teclado. Ao usar o <code>windfield</code>, todo objeto possui a propriedade de um:
+<br>
+    
+<br>
+    <code>body</code>: que é o corpo físico do objeto.
+<br>
+    <code>fixture</code>: que é a colisão do objeto.
+<br>
+    <code>shape</code>: que é a forma do objeto.
+<br>
+
+<br>
+    Tudo encapsulado em uma única entidade. Ou seja, <strong>todas as funções disponíveis em</strong><code>love.Body</code> estão disponíveis para nosso uso. O mesmo é válido para os outros dois. Caso queiramos fazer nosso <code>player</code> pular, por exemplo, podemos usar a função <code>Body:applyLinearImpulse</code>.
+<br>
+
+<br>
+    Vamos adicionar a seguinte função em nosso <code>main.lua</code>:
+<br>
+    <pre>
+
+    function love.keypressed(key)
+        if key == 'up' then
+            player:applyLinearImpulse(0, -500)
+        end
+    end
+    </pre>
+
+<br>
+    Essa função determina que quando a <em>setinha do teclado para cima</em> for apertada, o <code>player</code> irá pular. O <code>applyLinearImpulse</code> recebe dois parâmetros, <code>x e y</code>, que são a força aplicada no corpo. Infelizmente, com isso nosso <code>player</code> irá pular infinitamente, vamos corrigir isso posteriormente.
+<br>
+
+<br>
+    Por hora, vamos adicionar movimentação ao nosso <code>player</code>. Vamos adicionar a seguinte função em nosso <code>love.update(dt)</code>:
+<br>
+    <pre>
+
+    function love.update(dt)
+        world:update(dt)
+
+        local px, py = player:getPosition()
+    end
+    </pre>
+
+<br>
+    A função <code>player:getPosition()</code> irá adicionar os valores de <code>x</code> e <code>y</code> da posição do nosso <code>player</code> às variáveis <code>px e py</code> para que possamos utilizá-las. Vamos adicionar a <strong>propriedade</strong><code>player.speed</code>:
+<br>
+
+<br>
+    <pre>
+
+    function love.load()
+        wf = require 'libs/windfield'
+        world = wf.newWorld(0, 900, true)
+
+        player = world:newRectangleCollider(100, 100, 30, 50)
+        player:setType('dynamic')
+        player.speed = 200
+
+        platform = world:newCircleCollider(0,300,300)
+        platform:setType('static')
+
+        platform = world:newRectangleCollider(0,500,3000,1200)
+        platform:setType('static')
+    end
+    </pre>
+
+<br>
+
+<br>
+    E então, em <code>love.update()</code>, vamos adicionar o seguinte código:
+<br>
+    <pre>
+
+    function love.update(dt)
+        world:update(dt)
+
+        local px, py = player:getPosition()
+        if love.keyboard.isDown('left') then
+            player.setX(player, px - player.speed * dt)
+        elseif love.keyboard.isDown('right') then
+            player.setX(player, px + player.speed * dt)
+        end
+
+    end
+    </pre>
+
+<br>
+
+<br>
+    Esse código permite a movimentação do nosso jogador ao apertarmos as setas do teclado, somando ou subtraindo sua velocidade.
+<br>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> Classes de Colisão</h2>
+
+<br>
+    As classes de colisão são uma forma de organizar os objetos em grupos. Por exemplo, podemos ter uma classe de colisão chamada <em>player</em> para o nosso jogador e uma classe de colisão chamada <em>platform</em> para as plataformas. Vamos adicionar classes de colisão ao nosso jogo.
+<br>
+
+<br>
+    Vamos adicionar a seguinte função em nosso <code>love.load()</code>:
+<br>
+    <pre>
+
+        world:addCollisionClass('Player')
+        world:addCollisionClass('Platform')
+    </pre>
+
+<br>
+    Para associarmos um objeto à sua nova classe, adicionamos o parâmetro da seguinte forma em nosso <code>love.load()</code>:
+<br>
+    <pre>
+
+        player = world:newRectangleCollider(100, 100, 30, 50, {collision_class = 'Player'})
+
+        circle = world:newCircleCollider(0, 300, 300, {collision_class = 'Platform'})
+        platform = world:newRectangleCollider(0, 500, 3000, 1200, {collision_class = 'Platform'})
+    </pre>
+
+<br>
+
+<br>
+    Para fazermos um teste, vamos declarar que <code>circle</code> faz parte de uma <code>collision_class</code> que não interage com o jogador. Vamos adicionar a seguinte função em nosso <code>love.load()</code>:
+<br>
+    <pre>
+
+    world:addCollisionClass('Non-collide')
+    circle = world:newCircleCollider(0, 300, 300, {collision_class = 'Non-collide'})
+    circle:setType('static')
+    </pre>
+
+<br>
+
+<br>
+    Aqui definimos uma nova <code>collision_class</code> chamada <code>Non-collide</code>. Agora podemos fazer a seguinte alteração na definição da Collision Class do nosso jogador:
+<br>
+    <pre>
+
+    world:addCollisionClass('Player', {ignores={'Non-collide'}})
+    </pre>
+
+<br>
+
+<br>
+    Assim, resultando em o <code>player</code> não colidindo com objetos dessa classe:
+<br>
+    
+<img src="res/no_collision.jpeg" alt="Imagem do player sem colisão com o círculo">
+
+<br>
+    </div>
+
+<br>
+
+<br>
+    
+<div class="chapter"><h2> 4.2. Ajustando Player para não ser afetado</h2>
+
+<br>
+    Atualmente nosso <code>player</code> é afetado até demais pela gravidade e acaba caindo com frequencia. Para corrigir isso, podemos adicionar uma nova propriedade a ele chamada de <code>setFixedRotation()</code>:
+<br>
+    <pre>
+player:setFixedRotation(true)</pre>
+
+<br>
+    Isso fará com que nosso jogador não rode e seja afetado por outras colisões.
+<br>
+    </div>
+
+<br>
+
+<br>
+    
+<div class="chapter"><h2> 4.3. Adicionando colisões de dano</h2>
+
+<br>
+    Agora que temos as Collision Classes, podemos fazer uma nova colisão de dano. Primeiro vamos adicionar uma nova classe e um novo objeto em <code>love.load()</code>:
+<br>
+    <pre>
+
+    danger = world:newRectangleCollider(500, 400, 100, 100, {collision_class = 'Danger'})
+    danger:setType('dynamic')
+    </pre>
+
+<br>
+
+<br>
+    E então, dentro do nosso <code>love.update()</code>, vamos adicionar:
+<br>
+    <pre>
+
+    function love.update(dt)
+        world:update(dt)
+
+        if player.body then
+            local px, py = player:getPosition()
+            if love.keyboard.isDown('left') then
+                player.setX(player, px - player.speed * dt)
+            elseif love.keyboard.isDown('right') then
+                player.setX(player, px + player.speed * dt)
+            end
+
+            if player:enter('Danger') then
+                player:destroy()
+            end
+        end
+    end
+    </pre>
+
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> Fazendo o jogador pular</h2>
+
+<br>
+    Para fazermos o jogador pular, adicionamos a seguinte linha de código em nosso <code>love.keypressed()</code>:
+<br>
+    <pre>
+
+    function love.keypressed(key)
+        if player.body then
+            if key == 'up' then
+                local colliders = world:queryRectangleArea(player:getX() - 15, player:getY() + 25, 30, 5, {'Platform', 'Danger'})
+                if #colliders > 0 then
+                    player:applyLinearImpulse(0, -800)
+                end
+            end
+        end
+    end
+    </pre>
+
+<br>
+    Se a tecla pressionada for a tecla <code>'up' (para cima)</code>, a função realiza uma consulta na área retangular abaixo do jogador, usando <code>world:queryRectangleArea</code>. Esta consulta verifica se há algum objeto das classes <strong>'Platform' ou 'Danger'</strong> dentro da área especificada.
+<br>
+    
+<br>
+    Se houver pelo menos um objeto na área, o jogador recebe um impulso linear para cima, simulando um salto, através do método <code>player:applyLinearImpulse(0, -800)</code>.
+<br>
+
+<br>
+    Com base nisso, agora é impossível para o jogador pular infinitas vezes, pois ele só pode pular se estiver em contato com uma plataforma ou um objeto de perigo.
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> 4.4. Adicionando gráficos e Animação</h2>
+
+<br>
+    Primeiramente, é necessário termos uma <em>sheet</em> de sprites para animarmos e usarmos. Em nosso caso, usaremos o spritesheet da <strong>Cruz</strong>:
+<br>
+    
+<img src="res/running.png" alt="Spritesheet da Cruz">
+
+<br>
+    </div>
+
+<br>
+    Para simplificar esse processo, iremos usar a biblioteca <strong>anim8</strong> para lidar com a animação. Primeiramente, baixe a biblioteca 
+<a href="https://github.com/kikito/anim8"> aqui.</a>
+ Após baixar, extraia o arquivo e coloque a pasta <em>anim8</em> na pasta do seu projeto dentro de uma pasta chamada <em>libs</em>. Feito isso, vamos importar a biblioteca no nosso arquivo <em>main.lua</em> em <code>love.load()</code>:
+<br>
+    <pre>
+
+        anim8 = require 'libs/anim8/anim8'
+
+        -- Criando uma nova table "sprites".
+        sprites = {}
+        sprites.player = love.graphics.newImage('caminho/para/spritesheet')
+    </pre>
+
+<br>
+
+<br>
+
+<br>
+    </div>
+
+<br>
+
+<br>
+
+<br>
+(/chap)
+<br>
+</div><script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const allDetails = document.querySelectorAll('details');
+    allDetails.forEach(det => {
+      det.addEventListener('toggle', () => {
+      });
+    });
+  });
+document.querySelectorAll('.chapter h2').forEach(h2 => {
+const level = h2.closest('.chapter').parentElement?.closest('.chapter') ? 2 : 1;
+if (level === 2) {
+h2.style.fontSize = '1.2em';
+} else {
+h2.style.fontSize = '1.5em';
+}
+});
+const summaryDiv = document.querySelector('.summary');
+const chapters = document.querySelectorAll('.chapter h2');
+const ul = document.createElement('ul');
+
+chapters.forEach(chapter => {
+    const li = document.createElement('li');
+    li.textContent = chapter.textContent;
+    ul.appendChild(li);
+});
+
+summaryDiv.appendChild(ul);
+</script></body></html>
