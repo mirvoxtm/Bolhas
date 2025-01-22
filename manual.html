@@ -976,6 +976,74 @@ player:setFixedRotation(true)</pre>
     </pre>
 
 <br>
+    Isso irá alterar a animação do jogador de acordo com a direção que ele está se movendo. Se ele estiver parado, a animação será a de <em>idle</em>, e se ele estiver se movendo, a animação será a de <em>run</em>. 
+<br>
+
+<br>
+    Por fim, vamos inverter a imagem do jogador quando ele estiver indo para a esquerda. Para isso, vamos adicionar a seguinte linha de código em nosso <code>love.draw()</code>, mas antes, vamos adicionar uma nova <strong>propriedade</strong> ao player:
+<br>
+    <pre>
+
+        player.direction = 1 -- 1 para direita, -1 para esquerda.
+    </pre>
+
+<br>
+
+<br>
+    E então adicionamos a seguinte linha de código em nosso <code>love.update()</code>:
+<br>
+    <pre>
+
+    function love.update(dt)
+        world:update(dt)
+
+        if player.body then
+            local px, py = player:getPosition()
+
+            if love.keyboard.isDown('left') then
+                player.animation = animations.run
+                player.direction = -1
+                player.setX(player, px - player.speed * dt)
+
+            elseif love.keyboard.isDown('right') then
+                player.animation = animations.run
+                player.direction = 1
+                player.setX(player, px + player.speed * dt)
+
+            else
+                player.animation = animations.idle
+
+            end
+
+            if player:enter('Danger') then
+                player:destroy()
+            end
+        end
+
+        player.animation:update(dt)
+    end
+    </pre>
+
+<br>
+    O uso de 1 e -1 é intencional, já que isso permite com que alteremos apenas um único valor em nosso <code>love.draw()</code>:
+<br>
+    <pre>
+player.animation:draw(sprites.player, px - 25, py - 70, nil, 1 * player.direction, 1)</pre>
+
+<br>
+
+<br>
+    Caso tenhamos problema com o sprite saindo do lugar, podemos ajustar isso com um offset:
+<br>
+    <pre>
+
+        local px, py = player:getPosition()
+        local scaleX = 1 * player.direction
+        local offsetX = player.direction == 1 and -25 or 25
+        player.animation:draw(sprites.player, px + offsetX, py - 70, nil, scaleX, 1)    
+    </pre>
+
+<br>
     </div>
 
 <br>

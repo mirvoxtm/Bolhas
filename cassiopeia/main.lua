@@ -65,8 +65,9 @@ end
 function love.draw()
     if player.body then
         local px, py = player:getPosition()
-        player.animation:draw(sprites.player, px - 25, py - 70, nil, 1 * player.direction, 1)
-    
+        local scaleX = 1 * player.direction
+        local offsetX = player.direction == 1 and -25 or 25
+        player.animation:draw(sprites.player, px + offsetX, py - 70, nil, scaleX, 1)    
     end
 
     world:draw()

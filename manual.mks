@@ -573,7 +573,16 @@ LÖVE é um framework para a criação de jogos 2D em Lua. Ele fornece uma séri
         player.animation:update(dt)
     end
     (/code)
+    O uso de 1 e -1 é intencional, já que isso permite com que alteremos apenas um único valor em nosso (k)love.draw()(/k):
+    (code)player.animation:draw(sprites.player, px - 25, py - 70, nil, 1 * player.direction, 1)(/code)
 
+    Caso tenhamos problema com o sprite saindo do lugar, podemos ajustar isso com um offset:
+    (code)
+        local px, py = player:getPosition()
+        local scaleX = 1 * player.direction
+        local offsetX = player.direction == 1 and -25 or 25
+        player.animation:draw(sprites.player, px + offsetX, py - 70, nil, scaleX, 1)    
+    (/code)
     (/chap)
 
 
