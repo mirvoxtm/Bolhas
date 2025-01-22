@@ -479,8 +479,62 @@ LÖVE é um framework para a criação de jogos 2D em Lua. Ele fornece uma séri
         sprites = {}
         sprites.player = love.graphics.newImage('caminho/para/spritesheet')
     (/code)
+    Agora, devemos montar uma grade no qual o sprite será dividido. Isso pode ser feito com o seguinte código:
+    (code)
+        -- Note que o calculo dos dois primeiros parâmetros são o tamanho da imagem divido pela
+        -- quantidade de sprites.
 
+        local grid = anim8.newGrid(48, 96, sprites.player:getWidth(), sprites.player:getHeight())
+    (/code)
+    Agora, vamos criar as animações para o nosso jogador:
+    (code)
+        -- A animação é criada com o grid e a sequência de quadros.
+        animations = {}
+        animations.idle = anim8.newAnimation(grid('1-1', 1), 0.1)
+        animations.run =  anim8.newAnimation(grid('1-5', 1), 0.1)
+    (/code)
+    Com isso pronto, podemos adicionar a seguinte função em nosso (k)love.draw()(/k):
+    (code)
+        function love.draw()
+            if player.body then
+                local px, py = player:getPosition()
+                player.animation:draw(sprites.player, px, py) -- Pode ser necessário ajustar a posição.
+            end
 
+            world:draw()
+        end
+    (/code)
+
+    Agora, para animar o jogador, vamos atualizar nosso (k)love.update()(/k) da seguinte maneira:
+
+    (code)
+    function love.update(dt)
+        world:update(dt)
+
+        if player.body then
+            local px, py = player:getPosition()
+
+            if love.keyboard.isDown('left') then
+                player.animation = animations.run
+                player.setX(player, px - player.speed * dt)
+
+            elseif love.keyboard.isDown('right') then
+                player.animation = animations.run
+                player.setX(player, px + player.speed * dt)
+
+            else
+                player.animation = animations.idle
+
+            end
+
+            if player:enter('Danger') then
+                player:destroy()
+            end
+        end
+
+        player.animation:update(dt)
+    end
+    (/code)
     (/chap)
 
 

@@ -902,8 +902,78 @@ player:setFixedRotation(true)</pre>
     </pre>
 
 <br>
+    Agora, devemos montar uma grade no qual o sprite será dividido. Isso pode ser feito com o seguinte código:
+<br>
+    <pre>
+
+        -- Note que o calculo dos dois primeiros parâmetros são o tamanho da imagem divido pela
+        -- quantidade de sprites.
+
+        local grid = anim8.newGrid(48, 96, sprites.player:getWidth(), sprites.player:getHeight())
+    </pre>
 
 <br>
+    Agora, vamos criar as animações para o nosso jogador:
+<br>
+    <pre>
+
+        -- A animação é criada com o grid e a sequência de quadros.
+        animations = {}
+        animations.idle = anim8.newAnimation(grid('1-1', 1), 0.1)
+        animations.run =  anim8.newAnimation(grid('1-5', 1), 0.1)
+    </pre>
+
+<br>
+    Com isso pronto, podemos adicionar a seguinte função em nosso <code>love.draw()</code>:
+<br>
+    <pre>
+
+        function love.draw()
+            if player.body then
+                local px, py = player:getPosition()
+                player.animation:draw(sprites.player, px, py) -- Pode ser necessário ajustar a posição.
+            end
+
+            world:draw()
+        end
+    </pre>
+
+<br>
+
+<br>
+    Agora, para animar o jogador, vamos atualizar nosso <code>love.update()</code> da seguinte maneira:
+<br>
+
+<br>
+    <pre>
+
+    function love.update(dt)
+        world:update(dt)
+
+        if player.body then
+            local px, py = player:getPosition()
+
+            if love.keyboard.isDown('left') then
+                player.animation = animations.run
+                player.setX(player, px - player.speed * dt)
+
+            elseif love.keyboard.isDown('right') then
+                player.animation = animations.run
+                player.setX(player, px + player.speed * dt)
+
+            else
+                player.animation = animations.idle
+
+            end
+
+            if player:enter('Danger') then
+                player:destroy()
+            end
+        end
+
+        player.animation:update(dt)
+    end
+    </pre>
 
 <br>
     </div>

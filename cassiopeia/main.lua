@@ -37,14 +37,18 @@ function love.update(dt)
 
     if player.body then
         local px, py = player:getPosition()
+
         if love.keyboard.isDown('left') then
             player.animation = animations.run
             player.setX(player, px - player.speed * dt)
+
         elseif love.keyboard.isDown('right') then
             player.animation = animations.run
             player.setX(player, px + player.speed * dt)
+
         else
             player.animation = animations.idle
+
         end
 
         if player:enter('Danger') then
