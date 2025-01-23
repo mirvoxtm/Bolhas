@@ -585,5 +585,62 @@ LÖVE é um framework para a criação de jogos 2D em Lua. Ele fornece uma séri
     (/code)
     (/chap)
 
+    (chap | Fazendo Níveis com o Tiled)
+    O (link | mapeditor.org)Tiled(/link) é um "editor de níveis" que permite criar mapas de forma simples e eficiente. Para usá-lo, basta baixar o programa e executá-lo.
 
+    Para criar um novo mapa, clique em (i)File > New > New Map(/i) e escolhemos alguns aspectos do mapa. A orientação deve ser (i)Orthogonal(/i), o formato (i)CSV(/i) e a ordem (i)Right Down(/i). O tamanho do mapa pode ser ajustado de acordo com a necessidade, por hora, além da dimensão dos tiles. No nosso caso, nossos tiles são 16x16.
+
+    Devemos fazer o tamanho do mapa ser o tamanho do nosso jogo, então, no nosso caso, 800x600. Para adicionar um tileset, clique em (i)Map > New Tileset(/i) e selecione o arquivo de tileset que você deseja usar. No nosso caso, usaremos o seguinte Tileset de teste.
+
+    (img | res/tileset.png)Tileset de Teste(/img)
+
+    Após fazermos nosso mapa, exportamos ele como um (k)arquivo .lua(/k) e salvamos ele na pasta (k)maps(/k) no codigo fonte do nosso jogo. Agora para implementarmos o mapa no nosso jogo, vamos instalar a biblioteca (b)STI(/b) para lidar com o Tiled. Primeiramente, baixe a biblioteca (link | https://github.com/karai17/Simple-Tiled-Implementation)por aqui(/link).
+
+    Após isso, adicionamos a biblioteca no nosso (k)love.load()(/k):
+    (code)sti = require 'libs/sti/sti'(/code)
+    E então criamos uma nova função em nosso (k)main.lua(/k):
+    (code)
+    function loadMap()
+        gameMap = sti.new('src/maps/level1.lua')
+    end
+    (/code)
+
+    Após isso, atualizamos nosso (k)love.update()(/k) e nosso (k)love.draw()(/k) da seguinte maneira:
+
+    (code)
+    function love.update(dt)
+        playerUpdate(dt)
+        gameMap:update(dt)
+        world:update(dt)
+    end
+
+    function love.draw()
+        drawPlayer()
+        -- Aqui vai depender do nome que demos pela camada do Tiled.
+        gameMap:drawLayer(gameMap.layers["Foreground"])
+        world:draw()
+    end
+    (/code)
+    Com isso, nossos tiles já estarão visiveis. Porém eles estarão sem colisão. Podemos fazer isso no Tiled, criando uma Object Layer e adicionando as seguintes funções em nosso código:
+
+    (code)
+    -- Em platforms.lua
+    function platforms.spawnCollisions(world, x, y, width, height)
+        if width > 0 and height > 0 then
+            local platform = world:newRectangleCollider(x, y, width, height, {collision_class = 'Platform'})
+            platform:setType('static')
+            table.insert(platforms, platform)
+        end
+    end
+
+    -- Em main.lua
+    function loadMap()
+        gameMap = sti('src/maps/level1.lua')
+        for i, obj in pairs(gameMap.layers["Collision"].objects) do
+            platforms.spawnCollisions(world, obj.x, obj.y, obj.width, obj.height)
+        end
+    end
+    (/code)
+    Assim, nossas colisões definidas na camada Object chamada "Collision" do Tiled serão adicionadas ao nosso jogo.
+    (/chap)
 (/chap)

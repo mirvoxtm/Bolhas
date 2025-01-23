@@ -3,7 +3,7 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 
 local function loadAnimations()
     local sprites = {}
-    sprites.player = love.graphics.newImage('src/cruz/cruz_spritesheet.png')
+    sprites.player = love.graphics.newImage('src/img/cruz/cruz_spritesheet.png')
 
     local grid = anim8.newGrid(16, 32, sprites.player:getWidth(), sprites.player:getHeight())
 

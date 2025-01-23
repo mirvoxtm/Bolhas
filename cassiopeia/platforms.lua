@@ -1,9 +1,15 @@
-local function setupPlatforms(world)
-    local platform = world:newRectangleCollider(0, 500, 3000, 1200, {collision_class = 'Platform'})
-    platform:setType('static')
+local platforms = {}
 
-    local danger = world:newRectangleCollider(500, 500, 100, 30, {collision_class = 'Danger'})
-    danger:setType('dynamic')
+function platforms.setupPlatforms(world)
+    platforms = {}
 end
 
-return setupPlatforms
+function platforms.spawnCollisions(world, x, y, width, height)
+    if width > 0 and height > 0 then
+        local platform = world:newRectangleCollider(x, y, width, height, {collision_class = 'Platform'})
+        platform:setType('static')
+        table.insert(platforms, platform)
+    end
+end
+
+return platforms

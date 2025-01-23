@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Programando com Lua e LÖVE Framework</title>  <style>    body {      margin: 0;      padding: 0;      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;      background-color: white;      color: #333;      text-align: justify;      text-justify: inter-word;    }        .container {      max-width: 800px;      margin: 0 auto;      padding: 2em;      background-color: #fff;    }        .container h1, .container h2, .container h3 {      text-align: left;      margin-top: 1.2em;      margin-bottom: 0.8em;    }        .container p {      text-align: justify;      line-height: 1.6;      margin: 1em 0;    }         details {            margin-left: 0px;             margin-top: 10px;             margin-bottom: 0px;         }         summary {             padding-left: -20px;             cursor: pointer;             font-weight: bold;             padding-top: 5px;             outline: none;         }         details > div, details > details, details > summary {             margin-left: 10px;             padding-top: -25px;         }     img {      max-width: 100%;      height: auto;      display: block;      margin: 1em auto;    }        pre {      background: #272822;      color: #f8f8f2;      padding: 1em;      overflow-x: auto;      border-radius: 4px;      margin: 1em 0;    }    code {      background: #f4f4f4;      padding: 0.2em 0.4em;      border-radius: 4px;    }  </style></head><body><div class="container"><h1>Programando com Lua e LÖVE Framework</h1>
+<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Programando com Lua e LÖVE Framework</title>  <style>    body {      margin: 0;      padding: 0;      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;      background-color: #fafafa;      color: #333;      text-align: justify;    }        .container {      max-width: 800px;      margin: 0 auto;      padding: 2em;      background-color: #fff;      box-shadow: 0 2px 5px rgba(0,0,0,0.1);    }        .container h1, .container h2, .container h3 {      text-align: left;      margin-top: 1.2em;      margin-bottom: 0.8em;    }        .container p {      text-align: justify;      line-height: 1.6;      margin: 1em 0;    }         details {            margin-left: 0px;             margin-top: 10px;             margin-bottom: 0px;         }         summary {             padding-left: -20px;             cursor: pointer;             font-weight: bold;             padding-top: 5px;             outline: none;         }         details > div, details > details, details > summary {             margin-left: 10px;             padding-top: -25px;         }     img {      max-width: 100%;      height: auto;      display: block;      margin: 1em auto;    }        pre {      background: #272822;      color: #f8f8f2;      padding: 1em;      overflow-x: auto;      border-radius: 4px;      margin: 1em 0;    }    code {      background: #f4f4f4;      padding: 0.2em 0.4em;      border-radius: 4px;    }  </style></head><body><div class="container"><h1>Programando com Lua e LÖVE Framework</h1>
 <br>
 
 <img src="res/love2d.png" alt="Love2D Game Engine">
@@ -1049,9 +1049,30 @@ player.animation:draw(sprites.player, px - 25, py - 70, nil, 1 * player.directio
 <br>
 
 <br>
+    
+<div class="chapter"><h2> Fazendo Níveis com o Tiled</h2>
 
 <br>
-(/chap)
+    O 
+<a href="mapeditor.org">Tiled</a>
+ é um "editor de níveis" que permite criar mapas de forma simples e eficiente. Para usá-lo, basta baixar o programa e executá-lo.
+<br>
+
+<br>
+    Para criar um novo mapa, clique em <em>File > New > New Map</em> e escolhemos alguns aspectos do mapa. A orientação deve ser <em>Orthogonal</em>, o formato <em>CSV</em> e a ordem <em>Right Down</em>. O tamanho do mapa pode ser ajustado de acordo com a necessidade, por hora, além da dimensão dos tiles. No nosso caso, nossos tiles são 16x16.
+<br>
+
+<br>
+    Devemos fazer o tamanho do mapa ser o tamanho do nosso jogo, então, no nosso caso, 800x600. Para adicionar um tileset, clique em <em>Map > New Tileset</em> e selecione o arquivo de tileset que você deseja usar. No nosso caso, usaremos o seguinte Tileset de teste.
+<br>
+
+<br>
+    
+<img src="res/tileset.png" alt="Tileset de Teste">
+
+<br>
+</div>
+
 <br>
 </div><script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -1069,15 +1090,4 @@ h2.style.fontSize = '1.2em';
 h2.style.fontSize = '1.5em';
 }
 });
-const summaryDiv = document.querySelector('.summary');
-const chapters = document.querySelectorAll('.chapter h2');
-const ul = document.createElement('ul');
-
-chapters.forEach(chapter => {
-    const li = document.createElement('li');
-    li.textContent = chapter.textContent;
-    ul.appendChild(li);
-});
-
-summaryDiv.appendChild(ul);
 </script></body></html>
