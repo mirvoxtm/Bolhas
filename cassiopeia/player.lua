@@ -12,12 +12,12 @@ function playerUpdate(dt)
         local px, py = player:getPosition()
 
         if love.keyboard.isDown('left') then
-            player.animation = animations.run
+            player.animation = animations.runLeft
             player.direction = -1
             player.setX(player, px - player.speed * dt)
 
         elseif love.keyboard.isDown('right') then
-            player.animation = animations.run
+            player.animation = animations.runRight
             player.direction = 1
             player.setX(player, px + player.speed * dt)
 
@@ -37,9 +37,7 @@ end
 function drawPlayer()
     if player.body then
         local px, py = player:getPosition()
-        local scaleX = 1 * player.direction
-        local offsetX = player.direction == 1 and -25 or 25
-        player.animation:draw(sprites.player, px + offsetX, py - 70, nil, scaleX, 1)    
+        player.animation:draw(sprites.player, px - 25, py - 70, nil, 3, 3)    
     end
 end
 
