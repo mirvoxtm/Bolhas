@@ -5,8 +5,12 @@ local platforms = require 'platforms'
 
 function love.load()
     love.window.setTitle('Cassiopeia')
-    love.window.setMode(1200, 900, {resizable=false})
+    love.window.setMode(1080, 720, {resizable=false})
+
     sti = require 'libs/sti/sti'
+    cameraFile = require 'libs/hump/camera'
+
+    camera = cameraFile()
 
     sprites, animations = loadAnimations()
     world = setupWorld()
@@ -20,15 +24,20 @@ function love.update(dt)
     playerUpdate(dt)
     gameMap:update(dt)
     world:update(dt)
+
+    px, py = getPlayerPosition()
+    camera:lookAt(px, py)
 end
 
 function love.draw()
-    drawPlayer()
-    gameMap:drawLayer(gameMap.layers["Foreground"])
+    camera:attach()
+        drawPlayer()
+        gameMap:drawLayer(gameMap.layers["Foreground"])
 
-    if love.keyboard.isDown('c') then
-       world:draw()
-    end
+        if love.keyboard.isDown('c') then
+        world:draw()
+        end
+    camera:detach()
 end
 
 function love.keypressed(key)

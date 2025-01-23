@@ -41,6 +41,12 @@ function drawPlayer()
     end
 end
 
+function getPlayerPosition()
+    if player.body then
+        return player:getPosition()
+    end
+end
+
 function playerJump(key, world)
     if player.body then
         if key == 'up' then

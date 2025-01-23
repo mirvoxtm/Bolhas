@@ -643,4 +643,14 @@ LÖVE é um framework para a criação de jogos 2D em Lua. Ele fornece uma séri
     (/code)
     Assim, nossas colisões definidas na camada Object chamada "Collision" do Tiled serão adicionadas ao nosso jogo.
     (/chap)
+    (chap | Implementando uma Câmera)
+    Existe uma biblioteca chamada (link | https://github.com/vrld/hump)HUMP(/link) que nos permite criar uma câmera para o nosso jogo. Primeiramente, baixe a biblioteca e adicione ela ao seu projeto. Após isso, adicione a biblioteca no seu (k)love.load()(/k):
+    (code)
+    cameraFile = require 'libs/hump/camera'
+    camera = cameraFile()
+    (/code)
+    E então, adicione a seguinte função em seu (k)love.update()(/k):
+    (code)
+    camera:lookAt(player.body:getX(), player.body:getY())
+    (/code)
 (/chap)
