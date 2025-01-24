@@ -1,5 +1,5 @@
 function playerLoad(world)
-    player = world:newRectangleCollider(45, 76, 30, 50, {collision_class = 'Player'})
+    player = world:newRectangleCollider(70, 76, 18, 30, {collision_class = 'Player'})
     player:setType('dynamic')
     player:setFixedRotation(true)
     player.speed = 300
@@ -37,7 +37,7 @@ end
 function drawPlayer()
     if player.body then
         local px, py = player:getPosition()
-        player.animation:draw(sprites.player, px - 25, py - 70, nil, 3, 3)    
+        player.animation:draw(sprites.player, px - 13, py - 40, nil, 1.7, 1.7)    
     end
 end
 
@@ -47,12 +47,18 @@ function getPlayerPosition()
     end
 end
 
+function getPlayerDirection()
+    if player.body then
+        return player.direction
+    end
+end
+
 function playerJump(key, world)
     if player.body then
         if key == 'up' then
             local colliders = world:queryRectangleArea(player:getX() - 15, player:getY() + 25, 30, 5, {'Platform', 'Danger'})
             if #colliders > 0 then
-                player:applyLinearImpulse(0, -800)
+                player:applyLinearImpulse(0, -300)
             end
         end
     end

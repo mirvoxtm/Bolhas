@@ -11,6 +11,7 @@ function love.load()
     cameraFile = require 'libs/hump/camera'
 
     camera = cameraFile()
+    camera:zoom(3)
 
     sprites, animations = loadAnimations()
     world = setupWorld()
@@ -30,12 +31,13 @@ function love.update(dt)
 end
 
 function love.draw()
+    camera.smoother = camera.smooth.linear(100)
     camera:attach()
         drawPlayer()
-        gameMap:drawLayer(gameMap.layers["Foreground"])
+        gameMap:drawLayer(gameMap.layers["Platforms"])
 
         if love.keyboard.isDown('c') then
-        world:draw()
+            world:draw()
         end
     camera:detach()
 end
