@@ -1071,6 +1071,106 @@ player.animation:draw(sprites.player, px - 25, py - 70, nil, 1 * player.directio
 <img src="res/tileset.png" alt="Tileset de Teste">
 
 <br>
+
+<br>
+    Após fazermos nosso mapa, exportamos ele como um <code>arquivo .lua</code> e salvamos ele na pasta <code>maps</code> no codigo fonte do nosso jogo. Agora para implementarmos o mapa no nosso jogo, vamos instalar a biblioteca <strong>STI</strong> para lidar com o Tiled. Primeiramente, baixe a biblioteca 
+<a href="https://github.com/karai17/Simple-Tiled-Implementation">por aqui</a>
+.
+<br>
+
+<br>
+    Após isso, adicionamos a biblioteca no nosso <code>love.load()</code>:
+<br>
+    <pre>
+sti = require 'libs/sti/sti'</pre>
+
+<br>
+    E então criamos uma nova função em nosso <code>main.lua</code>:
+<br>
+    <pre>
+
+    function loadMap()
+        gameMap = sti.new('src/maps/level1.lua')
+    end
+    </pre>
+
+<br>
+
+<br>
+    Após isso, atualizamos nosso <code>love.update()</code> e nosso <code>love.draw()</code> da seguinte maneira:
+<br>
+
+<br>
+    <pre>
+
+    function love.update(dt)
+        playerUpdate(dt)
+        gameMap:update(dt)
+        world:update(dt)
+    end
+
+    function love.draw()
+        drawPlayer()
+        -- Aqui vai depender do nome que demos pela camada do Tiled.
+        gameMap:drawLayer(gameMap.layers["Foreground"])
+        world:draw()
+    end
+    </pre>
+
+<br>
+    Com isso, nossos tiles já estarão visiveis. Porém eles estarão sem colisão. Podemos fazer isso no Tiled, criando uma Object Layer e adicionando as seguintes funções em nosso código:
+<br>
+
+<br>
+    <pre>
+
+    -- Em platforms.lua
+    function platforms.spawnCollisions(world, x, y, width, height)
+        if width > 0 and height > 0 then
+            local platform = world:newRectangleCollider(x, y, width, height, {collision_class = 'Platform'})
+            platform:setType('static')
+            table.insert(platforms, platform)
+        end
+    end
+
+    -- Em main.lua
+    function loadMap()
+        gameMap = sti('src/maps/level1.lua')
+        for i, obj in pairs(gameMap.layers["Collision"].objects) do
+            platforms.spawnCollisions(world, obj.x, obj.y, obj.width, obj.height)
+        end
+    end
+    </pre>
+
+<br>
+    Assim, nossas colisões definidas na camada Object chamada "Collision" do Tiled serão adicionadas ao nosso jogo.
+<br>
+    </div>
+
+<br>
+    
+<div class="chapter"><h2> Implementando uma Câmera</h2>
+
+<br>
+    Existe uma biblioteca chamada 
+<a href="https://github.com/vrld/hump">HUMP</a>
+ que nos permite criar uma câmera para o nosso jogo. Primeiramente, baixe a biblioteca e adicione ela ao seu projeto. Após isso, adicione a biblioteca no seu <code>love.load()</code>:
+<br>
+    <pre>
+
+    cameraFile = require 'libs/hump/camera'
+    camera = cameraFile()
+    </pre>
+
+<br>
+    E então, adicione a seguinte função em seu <code>love.update()</code>:
+<br>
+    <pre>
+
+    camera:lookAt(player.body:getX(), player.body:getY())
+    </pre>
+
+<br>
 </div>
 
 <br>
