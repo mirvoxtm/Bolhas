@@ -14,6 +14,7 @@ function love.load()
     camera:zoom(3)
 
     sprites, animations = loadAnimations()
+    sprites.background = love.graphics.newImage('src/img/bg/cidade.png')
     world = setupWorld()
     platforms.setupPlatforms(world)
     playerLoad(world)
@@ -32,6 +33,7 @@ end
 
 function love.draw()
     camera.smoother = camera.smooth.linear(100)
+    love.graphics.draw(sprites.background, 0, 0)
     camera:attach()
         drawPlayer()
         gameMap:drawLayer(gameMap.layers["Platforms"])
