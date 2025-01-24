@@ -1,7 +1,7 @@
 local wf = require 'libs/windfield'
 
 local function setupWorld()
-    local world = wf.newWorld(0, 560, false)
+    local world = wf.newWorld(0, 500, false)
 
     world:addCollisionClass('Platform')
     world:addCollisionClass('Non-collide')

@@ -58,7 +58,7 @@ function playerJump(key, world)
         if key == 'up' then
             local colliders = world:queryRectangleArea(player:getX() - 15, player:getY() + 25, 30, 5, {'Platform'})
             if #colliders > 0 then
-                player:applyLinearImpulse(0, -600)
+                player:applyLinearImpulse(0, -100)
             end
         end
     end
