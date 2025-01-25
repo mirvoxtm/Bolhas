@@ -1,4 +1,5 @@
 local anim8 = require 'libs/anim8/anim8'
+
 love.graphics.setDefaultFilter('nearest', 'nearest')
 
 local function loadAnimations()
@@ -15,15 +16,28 @@ local function loadAnimations()
     return sprites, animations
 end
 
-function changeBackground(level)
+function changeBackgroundAndSong(level)
     print(level)
+    if level == 0 then
+        love.audio.stop()
+        sprites.background = love.graphics.newImage('src/img/bg/black.png')
+    end
+
     if level == 1 then
+        love.audio.stop()
+        love.audio.play(love.audio.newSource('src/aud/miners.mp3', 'stream'))
         sprites.background = love.graphics.newImage('src/img/bg/cidade.png')
     end
 
     if level == 2 then
+        love.audio.stop()
+        love.audio.play(love.audio.newSource('src/aud/cooler.mp3', 'stream'))
         sprites.background = love.graphics.newImage('src/img/bg/parallax.png')
     end
+end
+
+function returnBackground()
+    return sprites.background
 end
 
 return loadAnimations

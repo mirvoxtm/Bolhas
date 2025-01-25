@@ -32,9 +32,8 @@ function love.load()
     -- Inicializando as variáveis de jogador
     player = player.load(world)
 
-    level = 1
     -- Inicializando as variáveis de mapa
-    loadMap(level)
+    loadMap(player.getLevel())
 end
 
 -- Função de atualização do Jogo a cada frame
@@ -48,8 +47,13 @@ function love.update(dt)
     world:update(dt)
 
     -- Atualizando a câmera para a posição do jogador
-    px, py = player.getCurrentPosition()
-    camera:lookAt(px, py)
+
+    if player.getLevel() ~= 0 then
+        px, py = player.getCurrentPosition()
+        camera:lookAt(px, py)
+    else
+        camera:lookAt(135, 135)
+    end
 
 end
 
@@ -57,7 +61,13 @@ end
 function love.draw()
     camera.smoother = camera.smooth.linear(100)
     love.graphics.draw(sprites.background, 0, 0)
+
     camera:attach()
+
+        if player.getLevel() == 0 then
+            camera:zoomTo(3)
+        end
+
         player.draw()
         gameMap:drawLayer(gameMap.layers["Platforms"])
 
@@ -75,8 +85,11 @@ end
 
 -- Função de carregamento de mapa.
 function loadMap()
-    changeBackground(player.getLevel())
 
+    -- Altera o Background com base no nivel que o jogador está.
+    changeBackgroundAndSong(player.getLevel())
+
+    -- Destrói as plataformas, perigos e transportes do mapa anterior.
     platforms.destroyPlatforms()
     gameMap = sti('src/maps/level' .. player.getLevel() .. '.lua')
 

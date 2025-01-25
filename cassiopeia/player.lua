@@ -5,7 +5,7 @@ local player = {
     animation = nil,
     inTransportZone = false,
     inReturnZone = false,
-    level = 1
+    level = 0
 }
 
 function player.load(world)

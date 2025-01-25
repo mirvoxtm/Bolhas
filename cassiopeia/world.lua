@@ -13,4 +13,8 @@ local function setupWorld()
     return world
 end
 
+function returnGameMap()
+    return gameMap
+end
+
 return setupWorld
