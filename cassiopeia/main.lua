@@ -3,10 +3,11 @@ local loadAnimations = require 'animation'
 local setupWorld = require 'world'
 local platforms = require 'platforms'
 local transports = require 'platforms'
+local dialogues = require 'speechbubble'
+local dialogos = require 'dialogos'
 
 -- Função de carregamento do Jogo
 function love.load()
-
     -- Settando o título e o tamanho da janela
     love.window.setTitle('Cassiopeia')
     love.window.setMode(1080, 720, {resizable=false})
@@ -32,6 +33,10 @@ function love.load()
     -- Inicializando as variáveis de jogador
     player = player.load(world)
 
+    -- Carregando Diálogos
+    dialogLoad()
+    dialogos = loadDialogues()
+
     -- Inicializando as variáveis de mapa
     loadMap(player.getLevel())
 end
@@ -40,7 +45,8 @@ end
 function love.update(dt)
 
     -- Chamando playerUpdate de player.lua
-    player.update(dt, world, level)
+    player.update(dt, world, level, dialogos)
+    dialogUpdate()
 
     -- Chamando update de mapa e mundo do windfield
     gameMap:update(dt)
@@ -80,11 +86,8 @@ function love.draw()
             world:draw()
         end
     camera:detach()
-end
 
--- Função de pulo do jogador.
-function love.keypressed(key)
-    player.jump(key, world)
+    dialogDraw()
 end
 
 -- Função de carregamento de mapa.
@@ -121,5 +124,14 @@ function loadMap()
         for i, obj in pairs(gameMap.layers["Back"].objects) do
             transports.spawnTransport(world, obj.x, obj.y, obj.width, obj.height, 'Back')
         end
+    end
+end
+
+function love.keypressed(key)
+    if key == 'down' then
+        player.dialog(key, world, dialogos)
+    end
+    if key == 'escape' then
+        love.event.quit()
     end
 end

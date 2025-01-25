@@ -23,25 +23,39 @@ end
 
 -- Função de atualização do jogador.
 
-function player.update(dt, world, level)
+function passDialog(dialogues, world, key) 
+    function love.keypressed(key)
+        if key == 'down' then
+            player.dialog('down', world, dialogues)
+        end
+    end
+end
+
+function player.update(dt, world, level, dialogues)
 
     -- Se o jogador tiver um corpo, ele pode se mover.
     if player.body then
-
+        passDialog(dialogues, world, 'down')
         -- Pega a posição do jogador.
         local px, py = player.body:getPosition()
 
-        -- Se o jogador pressionar a tecla de movimento para a esquerda, ele se move para a esquerda.
-        if love.keyboard.isDown('left') and player.canMove then
-            player.animation = animations.runLeft
-            player.direction = -1
-            player.body:setX(px - player.speed * dt)
+        if player.canMove then
+            if love.keyboard.isDown('up') then
+                player.jump('up', world)
+            end
 
-        -- Se o jogador pressionar a tecla de movimento para a direita, ele se move para a direita.
-        elseif love.keyboard.isDown('right') and player.canMove then
-            player.animation = animations.runRight
-            player.direction = 1
-            player.body:setX(px + player.speed * dt)
+            -- Se o jogador pressionar a tecla de movimento para a esquerda, ele se move para a esquerda.
+            if love.keyboard.isDown('left') and player.canMove then
+                player.animation = animations.runLeft
+                player.direction = -1
+                player.body:setX(px - player.speed * dt)
+
+            -- Se o jogador pressionar a tecla de movimento para a direita, ele se move para a direita.
+            elseif love.keyboard.isDown('right') and player.canMove then
+                player.animation = animations.runRight
+                player.direction = 1
+                player.body:setX(px + player.speed * dt)
+        end
 
         -- Se o jogador não pressionar nenhuma tecla de movimento, ele fica parado.
         else
@@ -105,9 +119,6 @@ function player.update(dt, world, level)
 
         -- Se o jogador estiver em uma zona de diálogo e pressionar a tecla de movimento para baixo, ele pode interagir com o objeto.
         -- Aqui, essa função irá exibir um diálogo.
-        if player.inDialogTile and love.keyboard.isDown('down') then
-            print("Triggering dialog")
-        end
         
     end
 
@@ -147,7 +158,7 @@ function player.getDirection()
 end
 
 function player.jump(key, world)
-    if player.body and key == 'up' and player.canMove then
+    if player.body and key == 'up' then
         local colliders = world:queryRectangleArea(
             player.body:getX() - 5, 
             player.body:getY() + 10, 
@@ -157,6 +168,18 @@ function player.jump(key, world)
         )
         if #colliders > 0 then
             player.body:applyLinearImpulse(0, -50)
+        end
+    end
+end
+
+function player.dialog(key, world, dialogues)
+    if player.body and key == 'down' and player.inDialogTile and not isDialogActive() then
+        newDialog(dialogues[1])
+    elseif player.body and key == 'down' then
+        if not isLastLine() then
+            nextLine()
+        else
+            
         end
     end
 end
@@ -183,6 +206,15 @@ end
 function decrementLevel()
     player.level = player.level - 1
     print("Level decremented to " .. player.level)
+end
+
+function player.makePlayerUnmovable()
+    print("fez imovivel")
+    player.canMove = false
+end
+
+function player.makePlayerMovable()
+    player.canMove = true
 end
 
 return player
