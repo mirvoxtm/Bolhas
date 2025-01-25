@@ -39,6 +39,7 @@ function love.load()
     -- Carregando Diálogos
     dialogLoad()
     dialogos = loadDialogues()
+    
 
     -- Inicializando as variáveis de mapa
     loadMap(player.getLevel())
@@ -51,41 +52,31 @@ function love.update(dt)
     player.update(dt, world, level, dialogos)
     dialogUpdate()
 
-    if love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
-        bolhaTimer.current = love.timer.getTime(bolhaTimer)
-        player.setBubbleState(false)
-        print("Bolha estourada")
-        bubble.active = false
-        platforms.destroyBubble()
-    end
-
-    if player.body:enter('Bubble') then
-
+    if player.getBubbleState() then 
         if love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
             bolhaTimer.current = love.timer.getTime(bolhaTimer)
             player.setBubbleState(false)
             print("Bolha estourada")
-            bubble.active = false
             platforms.destroyBubble()
         end
     end
 
-    if bubble and bubble.active then
-        px, py = player.getCurrentPosition()
+    if player.body:enter('Bubble') then
 
-        if bubble then
+        if player.getBubbleState() and love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
+            bolhaTimer.current = love.timer.getTime(bolhaTimer)
+            player.setBubbleState(false)
+            print("Bolha estourada")
+            platforms.destroyBubble()
+        end
+    end
+
+    if player.getBubbleState() then
+        px, py = player.getCurrentPosition()
+        if player.getBubbleState() then
             bx, by = platforms.getBubblePosition()
         else
             bx, by = 0, 0
-        end
-
-        print(py, by)
-        if py < by then
-            bubble:setType('static')
-            print("andando em cima da bolha")
-        else
-            bubble:setType('dynamic')
-            print("andando em baixo da bolha")
         end
     end
 
@@ -133,12 +124,22 @@ end
 
 -- Função de carregamento de mapa.
 function loadMap()
-
     -- Altera o Background com base no nivel que o jogador está.
     changeBackgroundAndSong(player.getLevel())
 
+    player.inReturnZone = false
+    player.inTransportZone = false
+
     -- Destrói as plataformas, perigos e transportes do mapa anterior.
+    platforms.destroyDialogs()
+    platforms.destroyTransports()
     platforms.destroyPlatforms()
+    
+    if player.getBubbleState() then
+        platforms.destroyBubble()
+        player.setBubbleState(false)
+    end
+
     gameMap = sti('src/maps/level' .. player.getLevel() .. '.lua')
 
     -- Carregando o jogador na posição inicial do mapa definido no Tiled.
@@ -166,17 +167,35 @@ function loadMap()
             transports.spawnTransport(world, obj.x, obj.y, obj.width, obj.height, 'Back')
         end
     end
+
+    bubble = nil
 end
 
 function love.keypressed(key)
+    if key == 'up' then
+        love.audio.newSource("src/sfx/jump.mp3", "static"):play()
+    end
+
     if key == 'down' then
+        if player.getReturnZone() then
+            print("Triggering level transition")
+            decrementLevel()
+            loadMap()
+        end
+
+        if player.getTransportZone() then
+            print("Triggering level transition")
+            incrementLevel()
+            loadMap()
+        end
+
         player.dialog(key, world, dialogos)
     end
 
     if key == 'z' and player.getBubbleState() == false then
+        love.audio.newSource("src/sfx/bubble.mp3", "static"):play()
         player.setBubbleState(true)
         px, py = player.getCurrentPosition()
         bubble = platforms.spawnBubble(world, px + 10, py - 6, 10, 10, 'Bubble')
-        bubble.active = true
     end
 end

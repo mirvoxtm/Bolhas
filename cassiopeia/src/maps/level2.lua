@@ -275,7 +275,7 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 248,
+          x = 88,
           y = 184,
           width = 8,
           height = 8,

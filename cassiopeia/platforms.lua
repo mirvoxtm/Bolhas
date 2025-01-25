@@ -40,6 +40,8 @@ function platforms.spawnTransport(world, x, y, width, height, class)
         local transport = world:newRectangleCollider(x, y, width, height, {collision_class = class})
         transport:setType('static')
         table.insert(transports, transport)
+        print("Spawned transport at (" .. x .. ", " .. y .. ") with dimensions (" .. width .. ", " .. height .. ")")
+        print("Current number of transports: " .. #transports)
     end
 end
 
@@ -64,12 +66,57 @@ function platforms.destroyPlatforms()
     end
 end
 
+-- Função de destruição de transportes. Remove todos os transportes da tabela de transportes atual.
+-- Ou seja, remove a colisão e transporte do mapa que acaba de ser descarregado.
+function platforms.destroyTransports()
+    local i = #transports
+    print("Starting destroyTransports, number of transports: " .. i)
+    while i > 0 do
+        if transports[i] ~= nil then
+            print("Destroying transport at index: " .. i)
+            transports[i]:destroy()
+        else
+            print("Transport at index " .. i .. " is already nil")
+        end
+        table.remove(transports, i)
+        i = i - 1
+    end
+    print("Finished destroyTransports, remaining transports: " .. #transports)
+end
+
+function platforms.destroyDialogs()
+    local i = #dialogs
+    while i > 0 do
+        if dialogs[i] ~= nil then
+            dialogs[i]:destroy()
+        end
+        table.remove(dialogs, i)
+        i = i - 1
+    end
+end
+
+function platforms.destroyBubbles()
+    local i = #bubbles
+    while i > 0 do
+        if bubbles[i] ~= nil then
+            bubbles[i]:destroy()
+        end
+        table.remove(bubbles, i)
+        i = i - 1
+    end
+end
+
+function platforms.destroyAll()
+    platforms.destroyPlatforms()
+    platforms.destroyTransports()
+    platforms.destroyDialogs()
+end
+
 function platforms.spawnBubble(world, x, y, width, height, class)
     if width > 0 and height > 0 then
         local bubble = world:newRectangleCollider(x, y, width, height, {collision_class = class})
-        bubble:setType('dynamic')
         bubble:setFixedRotation(true)
-        bubble:setGravityScale(0)
+        bubble:setType('static')
         table.insert(bubbles, bubble)
         return bubble
     end

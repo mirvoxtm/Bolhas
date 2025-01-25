@@ -96,25 +96,6 @@ function player.update(dt, world, level)
             print("Exited dialog zone")
             player.inDialogTile = false
         end
-
-
-        -- Se o jogador pressionar a tecla de movimento para baixo, ele pode interagir com o objeto.
-        -- Aqui, essa função irá transportar o jogador para outro mapa (um acima) do atual.
-        if player.inTransportZone and love.keyboard.isDown('down') then
-            print("Triggering level transition")
-            loadMap(incrementLevel())
-        end
-
-        -- Se o jogador estiver em uma zona de retorno e pressionar a tecla de movimento para baixo, ele pode retornar ao mapa anterior.
-
-        if player.inReturnZone and love.keyboard.isDown('down') then
-            print("Triggering level transition")
-            loadMap(decrementLevel())
-        end
-
-        -- Se o jogador estiver em uma zona de diálogo e pressionar a tecla de movimento para baixo, ele pode interagir com o objeto.
-        -- Aqui, essa função irá exibir um diálogo.
-        
     end
 
     -- Atualiza a animação do jogador a cada frame.
@@ -159,10 +140,10 @@ function player.jump(key, world)
             player.body:getY() + 10, 
             10, 
             5, 
-            {'Platform'}
+            {'Platform', 'Bubble'}
         )
         if #colliders > 0 then
-            player.body:applyLinearImpulse(0, -50)
+            player.body:applyLinearImpulse(0, -10)
         end
     end
 end
@@ -218,6 +199,14 @@ end
 
 function player.setBubbleState(state)
     player.bubbleActive = state
+end
+
+function player.getReturnZone()
+    return player.inReturnZone
+end
+
+function player.getTransportZone()
+    return player.inTransportZone
 end
 
 return player
