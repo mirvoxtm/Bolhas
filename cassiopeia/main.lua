@@ -68,8 +68,12 @@ function love.draw()
             camera:zoomTo(3)
         end
 
-        player.draw()
         gameMap:drawLayer(gameMap.layers["Platforms"])
+        player.draw()
+
+        if gameMap.layers["Foreground"] then
+            gameMap:drawLayer(gameMap.layers["Foreground"])
+        end
 
         if love.keyboard.isDown('c') then
             gameMap:drawLayer(gameMap.layers["Transport"])
@@ -105,6 +109,12 @@ function loadMap()
 
     for i, obj in pairs(gameMap.layers["Transport"].objects) do
         transports.spawnTransport(world, obj.x, obj.y, obj.width, obj.height, 'Transport')
+    end
+
+    if gameMap.layers["Dialog"] then
+        for i, obj in pairs(gameMap.layers["Dialog"].objects) do
+            transports.spawnDialog(world, obj.x, obj.y, obj.width, obj.height, 'Dialog')
+        end
     end
 
     if gameMap.layers["Back"] then

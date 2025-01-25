@@ -7,7 +7,8 @@ local function setupWorld()
     world:addCollisionClass('Non-collide')
     world:addCollisionClass('Transport')
     world:addCollisionClass('Back')
-    world:addCollisionClass('Player', {ignores={'Non-collide', 'Transport', 'Back'}})
+    world:addCollisionClass('Dialog')
+    world:addCollisionClass('Player', {ignores={'Non-collide', 'Transport', 'Back', 'Dialog'}})
     world:addCollisionClass('Danger')
 
     return world

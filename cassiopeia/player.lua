@@ -5,6 +5,8 @@ local player = {
     animation = nil,
     inTransportZone = false,
     inReturnZone = false,
+    inDialogTile = false,
+    canMove = true,
     level = 0
 }
 
@@ -20,12 +22,12 @@ function player.update(dt, world, level)
     if player.body then
         local px, py = player.body:getPosition()
 
-        if love.keyboard.isDown('left') then
+        if love.keyboard.isDown('left') and player.canMove then
             player.animation = animations.runLeft
             player.direction = -1
             player.body:setX(px - player.speed * dt)
 
-        elseif love.keyboard.isDown('right') then
+        elseif love.keyboard.isDown('right') and player.canMove then
             player.animation = animations.runRight
             player.direction = 1
             player.body:setX(px + player.speed * dt)
@@ -46,6 +48,16 @@ function player.update(dt, world, level)
         if player.body:exit('Transport') then
             print("Exited transport zone")
             player.inTransportZone = false
+        end
+
+        if player.body:enter('Dialog') then
+            print("Entered dialog zone")
+            player.inDialogTile = true
+        end
+
+        if player.body:enter('Dialog') then
+            print("Exited dialog zone")
+            player.inDialogTile = false
         end
 
         if player.body:enter('Back') then
@@ -93,7 +105,7 @@ function player.getDirection()
 end
 
 function player.jump(key, world)
-    if player.body and key == 'up' then
+    if player.body and key == 'up' and player.canMove then
         local colliders = world:queryRectangleArea(
             player.body:getX() - 5, 
             player.body:getY() + 10, 

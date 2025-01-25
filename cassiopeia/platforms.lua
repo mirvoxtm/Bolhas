@@ -1,5 +1,6 @@
 local platforms = {}
 local transports = {}
+local dialogs = {}
 
 -- Função de setup de plataformas. Inicializa a tabela de plataformas.
 function platforms.setupPlatforms(world)
@@ -9,6 +10,10 @@ end
 -- Função de setup de transportes. Inicializa a tabela de transportes.
 function platforms.setupTransports(world)
     transports = {}
+end
+
+function platforms.setupDialog(world)
+    dialogs = {}
 end
 
 -- Função de spawn de plataformas. Cria um retângulo de colisão com as dimensões passadas.
@@ -30,6 +35,14 @@ function platforms.spawnTransport(world, x, y, width, height, class)
         local transport = world:newRectangleCollider(x, y, width, height, {collision_class = class})
         transport:setType('static')
         table.insert(transports, transport)
+    end
+end
+
+function platforms.spawnDialog(world, x, y, width, height, class)
+    if width > 0 and height > 0 then
+        local dialog = world:newRectangleCollider(x, y, width, height, {collision_class = class})
+        dialog:setType('static')
+        table.insert(dialogs, dialog)
     end
 end
 
