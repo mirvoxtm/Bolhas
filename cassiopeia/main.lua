@@ -21,7 +21,6 @@ function love.load()
 
     -- Inicializando as variáveis de sprites e animações
     sprites, animations = loadAnimations()
-    sprites.background = love.graphics.newImage('src/img/bg/cidade.png')
 
     -- Inicializando as variáveis de mundo
     world = setupWorld()
@@ -75,7 +74,9 @@ function love.keypressed(key)
 end
 
 -- Função de carregamento de mapa.
-function loadMap(level)
+function loadMap()
+    changeBackground(player.getLevel())
+
     platforms.destroyPlatforms()
     gameMap = sti('src/maps/level' .. player.getLevel() .. '.lua')
 
@@ -98,5 +99,4 @@ function loadMap(level)
             transports.spawnTransport(world, obj.x, obj.y, obj.width, obj.height, 'Back')
         end
     end
-
 end

@@ -15,4 +15,15 @@ local function loadAnimations()
     return sprites, animations
 end
 
+function changeBackground(level)
+    print(level)
+    if level == 1 then
+        sprites.background = love.graphics.newImage('src/img/bg/cidade.png')
+    end
+
+    if level == 2 then
+        sprites.background = love.graphics.newImage('src/img/bg/parallax.png')
+    end
+end
+
 return loadAnimations
