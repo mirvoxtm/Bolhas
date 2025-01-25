@@ -26,12 +26,15 @@ function love.load()
     -- Inicializando as variáveis de mundo
     world = setupWorld()
 
-    -- Inicializando as variáveis de plataformas, perigo e transportes
+    -- Inicializando as variáveis de plataformas, perigo e transportes e bolhas
     platforms.setupPlatforms(world)
     platforms.setupTransports(world)
 
     -- Inicializando as variáveis de jogador
     player = player.load(world)
+
+    -- Timer
+    bolhaTimer = {cooldown = 8, current = 0}
 
     -- Carregando Diálogos
     dialogLoad()
@@ -47,6 +50,44 @@ function love.update(dt)
     -- Chamando playerUpdate de player.lua
     player.update(dt, world, level, dialogos)
     dialogUpdate()
+
+    if love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
+        bolhaTimer.current = love.timer.getTime(bolhaTimer)
+        player.setBubbleState(false)
+        print("Bolha estourada")
+        bubble.active = false
+        platforms.destroyBubble()
+    end
+
+    if player.body:enter('Bubble') then
+
+        if love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
+            bolhaTimer.current = love.timer.getTime(bolhaTimer)
+            player.setBubbleState(false)
+            print("Bolha estourada")
+            bubble.active = false
+            platforms.destroyBubble()
+        end
+    end
+
+    if bubble and bubble.active then
+        px, py = player.getCurrentPosition()
+
+        if bubble then
+            bx, by = platforms.getBubblePosition()
+        else
+            bx, by = 0, 0
+        end
+
+        print(py, by)
+        if py < by then
+            bubble:setType('static')
+            print("andando em cima da bolha")
+        else
+            bubble:setType('dynamic')
+            print("andando em baixo da bolha")
+        end
+    end
 
     -- Chamando update de mapa e mundo do windfield
     gameMap:update(dt)
@@ -131,7 +172,11 @@ function love.keypressed(key)
     if key == 'down' then
         player.dialog(key, world, dialogos)
     end
-    if key == 'escape' then
-        love.event.quit()
+
+    if key == 'z' and player.getBubbleState() == false then
+        player.setBubbleState(true)
+        px, py = player.getCurrentPosition()
+        bubble = platforms.spawnBubble(world, px + 10, py - 6, 10, 10, 'Bubble')
+        bubble.active = true
     end
 end

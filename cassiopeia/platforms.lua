@@ -1,5 +1,6 @@
 local platforms = {}
 local transports = {}
+local bubbles = {}
 local dialogs = {}
 
 -- Função de setup de plataformas. Inicializa a tabela de plataformas.
@@ -14,6 +15,10 @@ end
 
 function platforms.setupDialog(world)
     dialogs = {}
+end
+
+function platforms.setupBubbles(world)
+    bubbles = {}
 end
 
 -- Função de spawn de plataformas. Cria um retângulo de colisão com as dimensões passadas.
@@ -57,6 +62,30 @@ function platforms.destroyPlatforms()
         table.remove(platforms, i)
         i = i - 1
     end
+end
+
+function platforms.spawnBubble(world, x, y, width, height, class)
+    if width > 0 and height > 0 then
+        local bubble = world:newRectangleCollider(x, y, width, height, {collision_class = class})
+        bubble:setType('dynamic')
+        bubble:setFixedRotation(true)
+        bubble:setGravityScale(0)
+        table.insert(bubbles, bubble)
+        return bubble
+    end
+end
+
+function platforms.destroyBubble()
+    bubbles[1]:destroy()
+    table.remove(bubbles, 1)
+end
+
+function platforms.getBubblePosition()
+    return bubbles[1]:getPosition()
+end
+
+function platforms.isBubbleValid()
+    return bubbles[1]:isActive()
 end
 
 return platforms

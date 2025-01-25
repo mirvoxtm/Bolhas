@@ -7,6 +7,7 @@ local player = {
     inReturnZone = false,
     inDialogTile = false,
     canMove = true,
+    bubbleActive = false,
     level = 0
 }
 
@@ -23,19 +24,11 @@ end
 
 -- Função de atualização do jogador.
 
-function passDialog(dialogues, world, key) 
-    function love.keypressed(key)
-        if key == 'down' then
-            player.dialog('down', world, dialogues)
-        end
-    end
-end
 
-function player.update(dt, world, level, dialogues)
+function player.update(dt, world, level)
 
     -- Se o jogador tiver um corpo, ele pode se mover.
     if player.body then
-        passDialog(dialogues, world, 'down')
         -- Pega a posição do jogador.
         local px, py = player.body:getPosition()
 
@@ -55,6 +48,8 @@ function player.update(dt, world, level, dialogues)
                 player.animation = animations.runRight
                 player.direction = 1
                 player.body:setX(px + player.speed * dt)
+            else
+                player.animation = animations.idle
         end
 
         -- Se o jogador não pressionar nenhuma tecla de movimento, ele fica parado.
@@ -215,6 +210,14 @@ end
 
 function player.makePlayerMovable()
     player.canMove = true
+end
+
+function player.getBubbleState()
+    return player.bubbleActive
+end
+
+function player.setBubbleState(state)
+    player.bubbleActive = state
 end
 
 return player
