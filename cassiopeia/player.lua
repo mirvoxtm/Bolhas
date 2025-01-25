@@ -55,7 +55,7 @@ function player.update(dt, world, level)
             player.inDialogTile = true
         end
 
-        if player.body:enter('Dialog') then
+        if player.body:exit('Dialog') then
             print("Exited dialog zone")
             player.inDialogTile = false
         end
@@ -78,6 +78,10 @@ function player.update(dt, world, level)
         if player.inReturnZone and love.keyboard.isDown('down') then
             print("Triggering level transition")
             loadMap(decrementLevel())
+        end
+
+        if player.inDialogTile and love.keyboard.isDown('down') then
+            print("Triggering dialog")
         end
         
     end
