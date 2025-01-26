@@ -2,35 +2,35 @@ function loadDialogues()
     return {
         -- Cassio First Encounter
         {
-         --   "           \nEm um certo futuro distante...",
-           -- "           \nO planeta conhecido como Terra foi quase destruído por\nrepetidos impactos de meteoros, como os que trouxeram a\nextinção dos dinossauros.",
-          --  "           \nDefrontados com a imensidão do Universo e sua perpétua\nincerteza, a raça humana foi dominada pelo medo.",
-          --  "           \nPara impedir sua própria extinção, governos do mundo\ninteiro se uniram para se proteger.",
-         --   "           \nPrimeiro, as maiores cidades do mundo criaram redomas\nimpenetráveis nos seus arredores, com acessos subterrâneos\napenas para transporte e ventilação.",
-         --   "           \nDepois, nasceu a ideia de proteger todo o planeta de\numa só vez.",
-          --  "           \nIncontáveis missões espaciais foram lançadas por todo o\nglobo, e, eventualmente, a Esfera de Aço foi completada.",
-          --  "           \nUma imensa estrutura oca, com o raio maior do que a\nprópria terra, resistente o suficiente para defletir\nqualquer impacto.",
-          --  "           \nO preço a se pagar, além do dinheiro, dos recursos\nnaturais e das vidas dos trabalhadores...",
-          --  "           \n...",
-          "           \nA humanidade jamais contemplaria o céu novamente."
+            "           \nEm um certo futuro distante...",
+            "           \nO planeta conhecido como Terra foi quase destruído por\nrepetidos impactos de meteoros, como os que trouxeram a\nextinção dos dinossauros.",
+            "           \nDefrontados com a imensidão do Universo e sua perpétua\nincerteza, a raça humana foi dominada pelo medo.",
+            "           \nPara impedir sua própria extinção, governos do mundo\ninteiro se uniram para se proteger.",
+            "           \nPrimeiro, as maiores cidades do mundo criaram redomas\nimpenetráveis nos seus arredores, com acessos subterrâneos\napenas para transporte e ventilação.",
+            "           \nDepois, nasceu a ideia de proteger todo o planeta de\numa só vez.",
+            "           \nIncontáveis missões espaciais foram lançadas por todo o\nglobo, e, eventualmente, a Esfera de Aço foi completada.",
+            "           \nUma imensa estrutura oca, com o raio maior do que a\nprópria terra, resistente o suficiente para defletir\nqualquer impacto.",
+            "           \nO preço a se pagar, além do dinheiro, dos recursos\nnaturais e das vidas dos trabalhadores...",
+            "           \n...",
+            "           \nA humanidade jamais contemplaria o céu novamente."
         },
 
         -- Cruz sai do Enertron
         {
-            "Cassio       \n\n\"Oh, bom dia, jovenzinha.\"",
-            "Cassio       \n\n\"Meu nome é Cassio. Desculpe por te acordar.\"",
-            "Cássio       \n\n\"Na verdade, estava procurando minha neta, mas nao a\n  encontrei.\"",
+            "Cássio       \n\n\"Oh, bom dia, jovenzinha.\"",
+            "Cássio       \n\n\"Meu nome é Cássio. Desculpe por te acordar.\"",
+            "Cássio       \n\n\"Na verdade, estava procurando minha neta, mas nao a\n encontrei.\"",
             -- Cássio se aproxima da Cruz
             "Cássio       \n\n\"Aqui. Isso costumava ser dela.\"",
-            "             \n\nVocê recebeu \"Livro de Colorir",
+            "             \n\nVocê recebeu \"Livro de Colorir\"",
             "             \n\nVocê recebeu \"Soprador de Bolhas\"!\nAperte [Z] para usar!",
             "Cássio       \n\n\"Boa jornada, garotinha.\"",
             "Cruz         \n\n\"[Meu nome é Cruz.]\"",
-            "Cássio       \n\n\"Ah! Você fala! Ótimo\"",
+            "Cássio       \n\n\"Ah! Você fala! Ótimo.\"",
             "Cássio       \n\n\"Bom... Eu preciso ir dormir.\"",
             "Cássio       \n\n\"Se me der licença...\"",
             --Cássio entra no Evertron
-            "             \n\nEle vai dormir, melhor não atrapalhar..."
+            "             \n\nEle vai dormir agora, melhor não atrapalhar..."
         },
         {
             --Cruz interagir % Evertron de novo
@@ -60,7 +60,7 @@ function loadDialogues()
             --Oriana foge, Cruz persegueS
             --Perseguição chega nos metros
             --Encontra o livro de colorir
-            "Você recuperou o \"Livro de Colorir\"!",
+            "\nVocê recuperou o \"Livro de Colorir\"!",
             "Cruz         \n\n\"...",
             "Cruz         \n\n\"!\"",
             --Sprite página 1 estilo desenho infantil
@@ -123,17 +123,38 @@ function loadDialogues()
             "Oriana       \n\n\"Fique aí aproveitando esses cristais que fingem ser estrelas.\"",
         },
         {
-        --Fim da Dungeon Esgotos
-        "Oriana       \n\n\"..Você me seguiu até aqui?\"",
-        "Oriana       \n\n\"Com o fedor desse lugar?\"",
-        "Oriana       \n\n\"Credo.\"",
-        --Cruz se aproxima
-        "Oriana       \n\n\"Sai pra lá! o fedor desse lugar deve ter grudado em você.\"",
-        --Cruz se aproxima até ficar do lado
-        "Oriana       \n\n\"...\"",
-        "Oriana       \n\n\"Você quer tanto pintar esse livro?\"",
-        "Oriana       \n\n\"...Tá. Vamos lá...\"",
-        --Emotar coração
+            --Fim da Dungeon Esgotos
+            "Oriana       \n\n\"..Você me seguiu até aqui?\"",
+            "Oriana       \n\n\"Com o fedor desse lugar?\"",
+            "Oriana       \n\n\"Credo.\"",
+            --Cruz se aproxima
+            "Oriana       \n\n\"Sai pra lá! o fedor desse lugar deve ter grudado em você.\"",
+            --Cruz se aproxima até ficar do lado
+            "Oriana       \n\n\"...\"",
+            "Oriana       \n\n\"Você quer tanto pintar esse livro?\"",
+            "Oriana       \n\n\"...Tá. Vamos lá...\"",
+            --Emotar coração
+            -- Exibir página 3 colorida
+            "Oriana       \n\n\"Você cheira bem",
+            "Oriana       \n\n\"Quer dizer, comparado a esse lugar.",
+            "Oriana       \n\n\"Erm... Digo...",
+            "Oriana       \n\n\"Esquece!"
+        },
+        {
+            --Cena FIM Oriana--
+
+            "Oriana      \n\n\"Você já havia se perguntado...\"",
+            --Oriana se afasta até a borda da plataforma (NAO OCORRE NA VERSÃO ALPHA)
+            "Oriana      \n\n\"Para onde iam as bolhas que você cria?\"",
+            --cruz mostra o caderno (N/O NA ALPHA)
+            "Oriana       \n\n\"Mas, apesar dos buracos e dessa bagunça...\"",
+            "Oriana       \n\n\"Estamos quase alcançando o céu.\"",
+            --Efeito de bolha (N/O NA ALPHA)
+            "Oriana       \n\n\"Agradeça àquele velho quando ele acordar.\"",
+            "Oriana       \n\n\"Cruz... Não é? Você também quer ver o céu?\"",
+            "Oriana       \n\n\"Vamos juntas, então.\""
+            --As duas saltam juntas sobre o caderno e alcançam a escotilha (N/O NA ALPHA)
+            --FIM--
         }
     }
 end

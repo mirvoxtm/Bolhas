@@ -1,11 +1,16 @@
 local platforms = {}
 local transports = {}
+local dangers = {}
 local bubbles = {}
 local dialogs = {}
 
 -- Função de setup de plataformas. Inicializa a tabela de plataformas.
 function platforms.setupPlatforms(world)
     platforms = {}
+end
+
+function platforms.setupDangers(world)
+    dangers = {}
 end
 
 -- Função de setup de transportes. Inicializa a tabela de transportes.
@@ -29,6 +34,27 @@ function platforms.spawnCollisions(world, x, y, width, height)
         local platform = world:newRectangleCollider(x, y, width, height, {collision_class = 'Platform'})
         platform:setType('static')
         table.insert(platforms, platform)
+    end
+end
+
+function platforms.spawnDanger(world, x, y, width, height, class)
+    if width > 0 and height > 0 then
+        local danger = world:newRectangleCollider(x, y, width, height, {collision_class = class})
+        danger:setFixedRotation(true)
+        danger:setType('static')
+        table.insert(dangers, danger)
+        return danger
+    end
+end
+
+function platforms.destroyDangers()
+    local i = #dangers
+    while i > 0 do
+        if dangers[i] ~= nil then
+            dangers[i]:destroy()
+        end
+        table.remove(dangers, i)
+        i = i - 1
     end
 end
 
@@ -116,7 +142,8 @@ function platforms.spawnBubble(world, x, y, width, height, class)
     if width > 0 and height > 0 then
         local bubble = world:newRectangleCollider(x, y, width, height, {collision_class = class})
         bubble:setFixedRotation(true)
-        bubble:setType('static')
+        bubble:setType('dynamic')
+        bubble:setGravityScale(0)
         table.insert(bubbles, bubble)
         return bubble
     end

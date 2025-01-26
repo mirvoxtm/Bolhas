@@ -22,7 +22,6 @@ function love.load()
 
     -- Inicializando as variáveis de sprites e animações
     sprites, animations = loadAnimations()
-    print(sprites.bubble)
 
     -- Inicializando as variáveis de mundo
     world = setupWorld()
@@ -35,7 +34,7 @@ function love.load()
     player = player.load(world)
 
     -- Timer
-    bolhaTimer = {cooldown = 8, current = 0}
+    bolhaTimer = {cooldown = 5, current = 0}
 
     fade = false
    
@@ -46,7 +45,7 @@ function love.load()
     canvas = love.graphics.newCanvas(1080, 720)
 
     -- Inicializando as variáveis de mapa
-    loadMap(player.getLevel())
+    loadMap()
 end
 
 -- Função de atualização do Jogo a cada frame
@@ -64,19 +63,52 @@ function love.update(dt)
     gameMap:update(dt)
     world:update(dt)
 
+    if player.getBubbleState() and bubble then
+        local px, py = player.body:getPosition()
+        local bx, by = bubble:getPosition()
+    
+        if player.body:enter('Bubble') then
+            if py < by then
+                bubble:setType('static')
+                bubble:setGravityScale(0)
+            else
+                bubble:setType('dynamic')
+            end
+        end
+    
+        if player.body:exit('Bubble') then
+            if bubble:getType() ~= 'static' then
+                bubble:setType('dynamic')
+            end
+        end
+    end
+
     if player.getBubbleState() then 
         if love.timer.getTime() - bolhaTimer.current >= bolhaTimer.cooldown then
             player.setBubbleState(false)
             
             bx, by = platforms.getBubblePosition()
 
-            print("Bolha estourada")
             platforms.destroyBubble()
         end
     end
 
     -- Atualizando a câmera para a posição do jogador
     if player.getLevel() < 3 then
+        camera:lookAt(135, 135)
+    elseif player.getLevel() == 3 then
+        px, py = player.getCurrentPosition()
+        camera:lookAt(px, 135)
+    elseif player.getLevel() == 4 then
+        px, py = player.getCurrentPosition()
+        camera:lookAt(135, 120)
+    elseif player.getLevel() == 5 then
+        px, py = player.getCurrentPosition()
+        camera:lookAt(135, py)
+    elseif player.getLevel() == 6 then
+        px, py = player.getCurrentPosition()
+        camera:lookAt(135, py)
+    elseif player.getLevel() == 8 then
         camera:lookAt(135, 135)
     else
         px, py = player.getCurrentPosition()
@@ -89,7 +121,7 @@ end
 function love.draw()
 
     if fade == false then
-        for i = 0, 200, 1 do
+        for i = 0, 100, 1 do
             love.graphics.setColor(0, 0, 0, 0.1)
             love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
             love.graphics.present()
@@ -112,10 +144,22 @@ function love.draw()
         if player.getLevel() == 2 then
             camera:zoomTo(3)
         end
+        if player.getLevel() == 3 then
+            camera:zoomTo(3)
+        end
+        if player.getLevel() == 5 then
+            camera:zoomTo(3)
+        end
+        if player.getLevel() == 6 then
+            camera:zoomTo(3)
+        end
       
-
         if gameMap.layers["BG"] then
             gameMap:drawLayer(gameMap.layers["BG"])
+        end
+
+        if gameMap.layers["POSBG"] then
+            gameMap:drawLayer(gameMap.layers["POSBG"])
         end
 
         gameMap:drawLayer(gameMap.layers["Platforms"])
@@ -157,6 +201,7 @@ function loadMap()
     platforms.destroyDialogs()
     platforms.destroyTransports()
     platforms.destroyPlatforms()
+    platforms.destroyDangers()
     
     if player.getBubbleState() then
         platforms.destroyBubble()
@@ -170,13 +215,21 @@ function loadMap()
         player.setPosition(obj.x, obj.y)
     end
 
+    if gameMap.layers["Danger"] then
+        for i, obj in pairs(gameMap.layers["Danger"].objects) do
+            transports.spawnDanger(world, obj.x, obj.y, obj.width, obj.height, 'Danger')
+        end
+    end
+
     -- Carregando as plataformas, perigos e transportes do mapa definido no Tiled.
     for i, obj in pairs(gameMap.layers["Collision"].objects) do
         platforms.spawnCollisions(world, obj.x, obj.y, obj.width, obj.height)
     end
 
-    for i, obj in pairs(gameMap.layers["Transport"].objects) do
-        transports.spawnTransport(world, obj.x, obj.y, obj.width, obj.height, 'Transport')
+    if gameMap.layers["Transport"] then
+        for i, obj in pairs(gameMap.layers["Transport"].objects) do
+            transports.spawnTransport(world, obj.x, obj.y, obj.width, obj.height, 'Transport')
+        end
     end
 
     if gameMap.layers["Dialog"] then
@@ -201,13 +254,11 @@ function love.keypressed(key)
 
     if key == 'down' and player.isMovable() then
         if player.getReturnZone() then
-            print("Triggering level transition")
             decrementLevel()
             loadMap()
         end
 
         if player.getTransportZone() then
-            print("Triggering level transition")
             incrementLevel()
             loadMap()
         end
@@ -215,17 +266,23 @@ function love.keypressed(key)
 
     player.dialog(key, world, dialogos)
 
-    if key == 'z' and player.getBubbleState() == false then
+    if player.getLevel() ~= 0 and player.getLevel() ~= 1 then
+        if key == 'z' and player.getBubbleState() == false then
         bolhaTimer.current = love.timer.getTime(bolhaTimer)
 
         love.audio.newSource("src/sfx/bubble.mp3", "static"):play()
         player.setBubbleState(true)
         px, py = player.getCurrentPosition()
         
-        bubble = platforms.spawnBubble(world, px + 10, py - 6, 10, 10, 'Bubble')
+        if player.getDirection() == -1 then
+            bubble = platforms.spawnBubble(world, px - 20, py - 6, 10, 10, 'Bubble')
+        else
+            bubble = platforms.spawnBubble(world, px + 10, py - 6, 10, 10, 'Bubble')
+        end
 
         bubble.animation = animations.bubbleIdle
         bubble.animation:gotoFrame(1)
 
+        end
     end
 end

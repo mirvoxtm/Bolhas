@@ -1,5 +1,5 @@
 local player = {
-    speed = 100,
+    speed = 70,
     direction = 1,
     body = nil,
     animation = nil,
@@ -35,6 +35,11 @@ function player.update(dt, world, level, dialogues)
         player.makePlayerMovable()
     end
 
+    if player.getLevel() == 8 and player.isInCg == false then
+        player.isInCg = true
+        player.makePlayerUnmovable()
+    end
+
     -- Se o jogador tiver um corpo, ele pode se mover.
     if player.body then
         -- Pega a posição do jogador.
@@ -57,17 +62,23 @@ function player.update(dt, world, level, dialogues)
                 player.direction = 1
                 player.body:setX(px + player.speed * dt)
             else
-                player.animation = animations.idle
-        end
+                if player.direction == -1 then
+                    player.animation = animations.idleLeft
+                else
+                    player.animation = animations.idle
+                end
+            end
 
-        -- Se o jogador não pressionar nenhuma tecla de movimento, ele fica parado.
+        -- Se o jogador não pressionar nenhuma tecla de movimento, ele fica parado olhando para a direção que estava.
         else
             player.animation = animations.idle
         end
 
         -- Se o jogador entrar em um objeto de perigo, ele é destruído.
         if player.body:enter('Danger') then
-            player.body:destroy()
+            for i, obj in pairs(gameMap.layers["Start"].objects) do
+                player.setPosition(obj.x, obj.y)
+            end
         end
 
         -- Se o jogador entrar em um objeto de transporte, ele é transportado para outro mapa.
@@ -158,13 +169,27 @@ end
 
 function player.dialog(key, world, dialogues)
     if player.body and key == 'down' and player.inDialogTile and not isDialogActive() then
-        newDialog(dialogues[2])
-        dialogues[2] = dialogues[3]
+
+        print("c")
+        if player.getLevel() == 2 then
+            print("1")
+            newDialog(dialogues[2])
+            dialogues[2] = dialogues[3]
+
+        elseif player.getLevel() == 7 then
+            print("2")
+            newDialog(dialogues[12])
+        end
+
     elseif player.body and key == 'down' then
+        print("d")
         if not isLastLine() then
             nextLine()
         else
-            
+            if player.getLevel() == 7 then
+                print("u")
+                loadMap(8)
+            end
         end
     end
 end
@@ -194,7 +219,6 @@ function decrementLevel()
 end
 
 function player.makePlayerUnmovable()
-    print("fez imovivel")
     player.canMove = false
 end
 
