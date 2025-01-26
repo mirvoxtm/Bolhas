@@ -35,11 +35,10 @@ function love.load()
 
     -- Timer
     bolhaTimer = {cooldown = 8, current = 0}
-
+   
     -- Carregando Diálogos
     dialogLoad()
     dialogos = loadDialogues()
-    
 
     -- Inicializando as variáveis de mapa
     loadMap(player.getLevel())
@@ -56,6 +55,11 @@ function love.update(dt)
         if love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
             bolhaTimer.current = love.timer.getTime(bolhaTimer)
             player.setBubbleState(false)
+            
+            bx, by = platforms.getBubblePosition()
+            bubble.animation = animations.bubblePop
+            bubble.animation:draw(sprites.bubble, bx - 8, by - 8, nil, 1, 1)    
+
             print("Bolha estourada")
             platforms.destroyBubble()
         end
@@ -66,6 +70,10 @@ function love.update(dt)
         if player.getBubbleState() and love.timer.getTime() - bolhaTimer.current > bolhaTimer.cooldown then
             bolhaTimer.current = love.timer.getTime(bolhaTimer)
             player.setBubbleState(false)
+
+            bubble.animation = animations.bubblePop
+            bubble.animation:draw(sprites.bubble, bx - 8, by - 8, nil, 1, 1)    
+
             print("Bolha estourada")
             platforms.destroyBubble()
         end
@@ -85,12 +93,11 @@ function love.update(dt)
     world:update(dt)
 
     -- Atualizando a câmera para a posição do jogador
-
-    if player.getLevel() ~= 0 then
+    if player.getLevel() < 2 then
+        camera:lookAt(135, 135)
+    else
         px, py = player.getCurrentPosition()
         camera:lookAt(px, py)
-    else
-        camera:lookAt(135, 135)
     end
 
 end
@@ -102,12 +109,17 @@ function love.draw()
 
     camera:attach()
 
-        if player.getLevel() == 0 then
+        if player.getLevel() < 2 then
             camera:zoomTo(3)
         end
 
         gameMap:drawLayer(gameMap.layers["Platforms"])
         player.draw()
+
+        if player.getBubbleState() then
+            bx, by = platforms.getBubblePosition()
+            bubble.animation:draw(sprites.bubble, bx - 8, by - 8, nil, 1, 1)    
+        end
 
         if gameMap.layers["Foreground"] then
             gameMap:drawLayer(gameMap.layers["Foreground"])
@@ -196,6 +208,10 @@ function love.keypressed(key)
         love.audio.newSource("src/sfx/bubble.mp3", "static"):play()
         player.setBubbleState(true)
         px, py = player.getCurrentPosition()
+        
         bubble = platforms.spawnBubble(world, px + 10, py - 6, 10, 10, 'Bubble')
+
+        bubble.animation = animations.bubbleIdle
+    
     end
 end
