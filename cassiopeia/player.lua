@@ -8,6 +8,7 @@ local player = {
     inDialogTile = false,
     canMove = true,
     bubbleActive = false,
+    isInCg = false,
     level = 0
 }
 
@@ -25,7 +26,14 @@ end
 -- Função de atualização do jogador.
 
 
-function player.update(dt, world, level)
+function player.update(dt, world, level, dialogues)
+    
+    -- Função de tocar a CG
+    if player.getLevel() == 1 and player.isInCg == false then
+        player.isInCg = true
+        newDialog(dialogues[1])
+        player.makePlayerMovable()
+    end
 
     -- Se o jogador tiver um corpo, ele pode se mover.
     if player.body then
@@ -150,7 +158,8 @@ end
 
 function player.dialog(key, world, dialogues)
     if player.body and key == 'down' and player.inDialogTile and not isDialogActive() then
-        newDialog(dialogues[1])
+        newDialog(dialogues[2])
+        dialogues[2] = dialogues[3]
     elseif player.body and key == 'down' then
         if not isLastLine() then
             nextLine()
@@ -191,6 +200,10 @@ end
 
 function player.makePlayerMovable()
     player.canMove = true
+end
+
+function player.isMovable()
+    return player.canMove
 end
 
 function player.getBubbleState()

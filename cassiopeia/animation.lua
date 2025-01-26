@@ -8,15 +8,14 @@ local function loadAnimations()
     sprites.bubble = love.graphics.newImage('src/img/bubble/bubbles.png')
 
     local grid = anim8.newGrid(16, 32, sprites.player:getWidth(), sprites.player:getHeight())
-    local bubbleGrid = anim8.newGrid(16, 16, sprites.bubble:getWidth(), sprites.bubble:getHeight())
+    local bubbleGrid = anim8.newGrid(16, 16, 512, 16)
 
     local animations = {}
     animations.idle = anim8.newAnimation(grid('1-8', 1), 0.15)
     animations.runRight = anim8.newAnimation(grid('1-6', 2), 0.1)
     animations.runLeft = anim8.newAnimation(grid('1-6', 3), 0.1)
 
-    animations.bubbleIdle = anim8.newAnimation(bubbleGrid('1-2', 1), 0.1)
-    animations.bubblePop = anim8.newAnimation(bubbleGrid('1-4', 2), 0.1)
+    animations.bubbleIdle = anim8.newAnimation(bubbleGrid('1-32', 1), 0.26)
 
     return sprites, animations
 end
@@ -30,19 +29,31 @@ function changeBackgroundAndSong(level)
 
     if level == 1 then
         love.audio.stop()
-        love.audio.play(love.audio.newSource('src/aud/vento.mp3', 'stream'))
-        sprites.background = love.graphics.newImage('src/img/bg/parallax.png')
+
+        local music = love.audio.newSource('src/aud/vento.mp3', 'stream')
+        music:setLooping(true)
+        love.audio.play(music)
+        
+        sprites.background = love.graphics.newImage('src/img/bg/cgi.png')
     end
 
     if level == 2 then
         love.audio.stop()
-        love.audio.play(love.audio.newSource('src/aud/cooler.mp3', 'stream'))
+        
+        local music = love.audio.newSource('src/aud/cidade.mp3', 'stream')
+        music:setLooping(true)
+        love.audio.play(music)
+        
         sprites.background = love.graphics.newImage('src/img/bg/parallax.png')
     end
 end
 
 function returnBackground()
     return sprites.background
+end
+
+function returnBubble()
+    return sprites.bubble
 end
 
 return loadAnimations

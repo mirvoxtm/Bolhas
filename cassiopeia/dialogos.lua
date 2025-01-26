@@ -1,5 +1,20 @@
 function loadDialogues()
     return {
+        -- Cassio First Encounter
+        {
+         --   "           \nEm um certo futuro distante...",
+           -- "           \nO planeta conhecido como Terra foi quase destruído por\nrepetidos impactos de meteoros, como os que trouxeram a\nextinção dos dinossauros.",
+          --  "           \nDefrontados com a imensidão do Universo e sua perpétua\nincerteza, a raça humana foi dominada pelo medo.",
+          --  "           \nPara impedir sua própria extinção, governos do mundo\ninteiro se uniram para se proteger.",
+         --   "           \nPrimeiro, as maiores cidades do mundo criaram redomas\nimpenetráveis nos seus arredores, com acessos subterrâneos\napenas para transporte e ventilação.",
+         --   "           \nDepois, nasceu a ideia de proteger todo o planeta de\numa só vez.",
+          --  "           \nIncontáveis missões espaciais foram lançadas por todo o\nglobo, e, eventualmente, a Esfera de Aço foi completada.",
+          --  "           \nUma imensa estrutura oca, com o raio maior do que a\nprópria terra, resistente o suficiente para defletir\nqualquer impacto.",
+          --  "           \nO preço a se pagar, além do dinheiro, dos recursos\nnaturais e das vidas dos trabalhadores...",
+          --  "           \n...",
+          "           \nA humanidade jamais contemplaria o céu novamente."
+        },
+
         -- Cruz sai do Enertron
         {
             "Cassio       \n\n\"Oh, bom dia, jovenzinha.\"",
@@ -7,23 +22,23 @@ function loadDialogues()
             "Cássio       \n\n\"Na verdade, estava procurando minha neta, mas nao a\n  encontrei.\"",
             -- Cássio se aproxima da Cruz
             "Cássio       \n\n\"Aqui. Isso costumava ser dela.\"",
-            "             \n\n\"Você recebeu \"Livro de Colorir\"",
-            "             \n\n\"Você recebeu \"Soprador de Bolhas\"",
+            "             \n\nVocê recebeu \"Livro de Colorir",
+            "             \n\nVocê recebeu \"Soprador de Bolhas\"!\nAperte [Z] para usar!",
             "Cássio       \n\n\"Boa jornada, garotinha.\"",
             "Cruz         \n\n\"[Meu nome é Cruz.]\"",
             "Cássio       \n\n\"Ah! Você fala! Ótimo\"",
             "Cássio       \n\n\"Bom... Eu preciso ir dormir.\"",
             "Cássio       \n\n\"Se me der licença...\"",
             --Cássio entra no Evertron
-            "Ele vai dormir, melhor não atrapalhar..."
+            "             \n\nEle vai dormir, melhor não atrapalhar..."
         },
         {
             --Cruz interagir % Evertron de novo
-            "Melhor não atrapalhar..."
+            "             \n\nMelhor não atrapalhar..."
         },
         --Interacccção na cidade
         {
-            "Hmm... Um droide de limpeza."
+            "             \n\nHmm... Um droide de limpeza."
         },
         --Oriana 1st Encounter
         {
