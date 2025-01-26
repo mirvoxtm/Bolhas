@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="34" height="36" tilewidth="8" tileheight="8" infinite="1" nextlayerid="7" nextobjectid="56">
+ <editorsettings>
+  <export target="level9.lua" format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" name="cassiopeia" tilewidth="8" tileheight="8" tilecount="576" columns="16">
+  <image source="../tls/tileset.png" width="128" height="288"/>
+ </tileset>
+ <layer id="1" name="Platforms" width="34" height="36">
+  <data encoding="csv">
+   <chunk x="32" y="16" width="16" height="16">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,173,174,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,189,190,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+  </data>
+ </layer>
+ <objectgroup id="3" name="Collision">
+  <object id="53" x="-80" y="280" width="8" height="8"/>
+ </objectgroup>
+ <objectgroup id="5" name="Start">
+  <object id="54" x="-80" y="272" width="8" height="8"/>
+ </objectgroup>
+</map>

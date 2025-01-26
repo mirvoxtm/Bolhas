@@ -154,12 +154,12 @@ function love.draw()
             camera:zoomTo(3)
         end
       
-        if gameMap.layers["BG"] then
-            gameMap:drawLayer(gameMap.layers["BG"])
-        end
-
         if gameMap.layers["POSBG"] then
             gameMap:drawLayer(gameMap.layers["POSBG"])
+        end
+
+        if gameMap.layers["BG"] then
+            gameMap:drawLayer(gameMap.layers["BG"])
         end
 
         gameMap:drawLayer(gameMap.layers["Platforms"])
@@ -174,10 +174,10 @@ function love.draw()
             gameMap:drawLayer(gameMap.layers["Foreground"])
         end
 
-        if love.keyboard.isDown('c') then
-            gameMap:drawLayer(gameMap.layers["Transport"])
-            world:draw()
-        end
+        --if love.keyboard.isDown('c') then
+        --    gameMap:drawLayer(gameMap.layers["Transport"])
+        --    world:draw()
+        --end
         
 
     camera:detach()

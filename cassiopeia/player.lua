@@ -83,36 +83,30 @@ function player.update(dt, world, level, dialogues)
 
         -- Se o jogador entrar em um objeto de transporte, ele é transportado para outro mapa.
         if player.body:enter('Transport') then
-            print("Entered transport zone")
             player.inTransportZone = true
         end
 
         -- Se o jogador sair de um objeto de transporte, inTransportZone é falso.
         if player.body:exit('Transport') then
-            print("Exited transport zone")
             player.inTransportZone = false
         end
 
         -- Outro objeto de transporte, este usado para retornar ao mapa anterior.
         if player.body:enter('Back') then
-            print("Entered transport zone")
             player.inReturnZone = true
         end
 
         if player.body:exit('Back') then
-            print("Exited transport zone")
             player.inReturnZone = false
         end
 
         -- Se o jogador entrar em um objeto de diálogo, inDialogTile é verdadeiro.
         if player.body:enter('Dialog') then
-            print("Entered dialog zone")
             player.inDialogTile = true
         end
 
         -- Se o jogador sair de um objeto de diálogo, inDialogTile é falso.
         if player.body:exit('Dialog') then
-            print("Exited dialog zone")
             player.inDialogTile = false
         end
     end
@@ -170,24 +164,19 @@ end
 function player.dialog(key, world, dialogues)
     if player.body and key == 'down' and player.inDialogTile and not isDialogActive() then
 
-        print("c")
         if player.getLevel() == 2 then
-            print("1")
             newDialog(dialogues[2])
             dialogues[2] = dialogues[3]
 
         elseif player.getLevel() == 7 then
-            print("2")
             newDialog(dialogues[12])
         end
 
     elseif player.body and key == 'down' then
-        print("d")
         if not isLastLine() then
             nextLine()
         else
             if player.getLevel() == 7 then
-                print("u")
                 loadMap(8)
             end
         end
@@ -210,12 +199,10 @@ end
 
 function incrementLevel()
     player.level = player.level + 1
-    print("Level incremented to " .. player.level)
 end
 
 function decrementLevel()
     player.level = player.level - 1
-    print("Level decremented to " .. player.level)
 end
 
 function player.makePlayerUnmovable()

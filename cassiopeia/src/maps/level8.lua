@@ -117,35 +117,6 @@ return {
     {
       type = "objectgroup",
       draworder = "topdown",
-      id = 4,
-      name = "Transport",
-      class = "",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      parallaxx = 1,
-      parallaxy = 1,
-      properties = {},
-      objects = {
-        {
-          id = 55,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = -80,
-          y = 272,
-          width = 8,
-          height = 8,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
-      }
-    },
-    {
-      type = "objectgroup",
-      draworder = "topdown",
       id = 5,
       name = "Start",
       class = "",
