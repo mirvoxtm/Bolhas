@@ -180,10 +180,10 @@ function love.draw()
             gameMap:drawLayer(gameMap.layers["Foreground"])
         end
 
-        if love.keyboard.isDown('c') then
-            gameMap:drawLayer(gameMap.layers["Platforms"])
-            world:draw()
-        end
+       -- if love.keyboard.isDown('c') then
+        --    gameMap:drawLayer(gameMap.layers["Platforms"])
+        --    world:draw()
+       -- end
         
 
     camera:detach()
