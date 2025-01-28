@@ -2,17 +2,17 @@ function loadDialogues()
     return {
         -- Cassio First Encounter
         {
-          --  "           \nEm um certo futuro distante...",
-            --"           \nO planeta conhecido como Terra foi quase destruído por\nrepetidos impactos de meteoros, como os que trouxeram a\nextinção dos dinossauros.",
---            "           \nDefrontados com a imensidão do Universo e sua perpétua\nincerteza, a raça humana foi dominada pelo medo.",
-  ---          "           \nPara impedir sua própria extinção, governos do mundo\ninteiro se uniram para se proteger.",
-       --     "           \nPrimeiro, as maiores cidades do mundo criaram redomas\nimpenetráveis nos seus arredores, com acessos subterrâneos\napenas para transporte e ventilação.",
-     --    --   "           \nDepois, nasceu a ideia de proteger todo o planeta de\numa só vez.",
-          --  "           \nIncontáveis missões espaciais foram lançadas por todo o\nglobo, e, eventualmente, a Esfera de Aço foi completada.",
-         --   "           \nUma imensa estrutura oca, com o raio maior do que a\nprópria terra, resistente o suficiente para defletir\nqualquer impacto.",
-           -- "           \nO preço a se pagar, além do dinheiro, dos recursos\nnaturais e das vidas dos trabalhadores...",
+            "           \nEm um certo futuro distante...",
+            "           \nO planeta conhecido como Terra foi quase destruído por\nrepetidos impactos de meteoros, como os que trouxeram a\nextinção dos dinossauros.",
+            "           \nDefrontados com a imensidão do Universo e sua perpétua\nincerteza, a raça humana foi dominada pelo medo.",
+            "           \nPara impedir sua própria extinção, governos do mundo\ninteiro se uniram para se proteger.",
+            "           \nPrimeiro, as maiores cidades do mundo criaram redomas\nimpenetráveis nos seus arredores, com acessos subterrâneos\napenas para transporte e ventilação.",
+            "           \nDepois, nasceu a ideia de proteger todo o planeta de\numa só vez.",
+            "           \nIncontáveis missões espaciais foram lançadas por todo o\nglobo, e, eventualmente, a Esfera de Aço foi completada.",
+            "           \nUma imensa estrutura oca, com o raio maior do que a\nprópria terra, resistente o suficiente para defletir\nqualquer impacto.",
+            "           \nO preço a se pagar, além do dinheiro, dos recursos\nnaturais e das vidas dos trabalhadores...",
             "           \n...",
-           -- "           \nA humanidade jamais contemplaria o céu novamente."
+            "           \nA humanidade jamais contemplaria o céu novamente."
         },
 
         -- Cruz sai do Enertron
