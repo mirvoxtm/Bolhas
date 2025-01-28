@@ -1,5 +1,8 @@
 local player = {
-    speed = 70,
+    speed = 80,
+    maxSpeed = 80,
+    acceleration = 200,
+    deceleration = 180,
     direction = 1,
     body = nil,
     animation = nil,
@@ -9,14 +12,28 @@ local player = {
     canMove = true,
     bubbleActive = false,
     isInCg = false,
-    level = 0
+    inBubble = false,
+    level = 0,
+    isJumping = false,
+    doubleJump = true,
+    jumpCooldown = 0.4,
+    bubbleCooldown = 0.5,
+    jumpTimer = 0
 }
+
+function player.getBubbleCooldown()
+    return player.bubbleCooldown
+end
+
+function player.setBubbleCooldown(x)
+    player.bubbleCooldown = x
+end
 
 -- Função de carregamento do jogador. Cria um retângulo de colisão com as dimensões passadas.
 -- Define o tipo do corpo como dinâmico e fixa a rotação. Retorna o jogador.
 
 function player.load(world)
-    player.body = world:newRectangleCollider(100, 150, 10, 20, {collision_class = 'Player'})
+    player.body = world:newRectangleCollider(100, 155, 10, 15, {collision_class = 'Player'})
     player.body:setType('dynamic')
     player.body:setFixedRotation(true)
     player.animation = animations.idle
@@ -28,6 +45,10 @@ end
 
 function player.update(dt, world, level, dialogues)
     
+    if player.jumpTimer > 0 then
+        player.jumpTimer = player.jumpTimer - dt
+    end
+
     -- Função de tocar a CG
     if player.getLevel() == 1 and player.isInCg == false then
         player.isInCg = true
@@ -40,38 +61,36 @@ function player.update(dt, world, level, dialogues)
         player.makePlayerUnmovable()
     end
 
-    -- Se o jogador tiver um corpo, ele pode se mover.
     if player.body then
         -- Pega a posição do jogador.
         local px, py = player.body:getPosition()
+        local vx, vy = player.body:getLinearVelocity()
 
         if player.canMove then
             if love.keyboard.isDown('up') then
-                player.jump('up', world)
-            end
-
-            -- Se o jogador pressionar a tecla de movimento para a esquerda, ele se move para a esquerda.
-            if love.keyboard.isDown('left') and player.canMove then
-                player.animation = animations.runLeft
-                player.direction = -1
-                player.body:setX(px - player.speed * dt)
-
-            -- Se o jogador pressionar a tecla de movimento para a direita, ele se move para a direita.
-            elseif love.keyboard.isDown('right') and player.canMove then
-                player.animation = animations.runRight
-                player.direction = 1
-                player.body:setX(px + player.speed * dt)
-            else
-                if player.direction == -1 then
-                    player.animation = animations.idleLeft
-                else
-                    player.animation = animations.idle
+                if player.isMovable() then
+                    player.jump(world)
                 end
             end
 
-        -- Se o jogador não pressionar nenhuma tecla de movimento, ele fica parado olhando para a direção que estava.
-        else
-            player.animation = animations.idle
+            if love.keyboard.isDown('left') then
+                player.direction = -1
+                player.setX(player, px - player.speed * dt)
+                player.animation = animations.runLeft
+
+            elseif love.keyboard.isDown('right') then
+                player.direction = 1
+                player.setX(player, px + player.speed * dt)
+                player.animation = animations.runRight
+
+            else
+
+                if player.direction == 1 then
+                    player.animation = animations.idle
+                else
+                    player.animation = animations.idleLeft
+                end
+            end
         end
 
         -- Se o jogador entrar em um objeto de perigo, ele é destruído.
@@ -126,7 +145,12 @@ function player.draw()
         local px, py = player.body:getPosition()
 
         -- Desenha o jogador na tela.
-        player.animation:draw(sprites.player, px - 7, py - 21, nil, 1, 1)    
+        player.animation:draw(sprites.player, px - 7, py - 24, nil, 1, 1) 
+
+        --love.graphics.setColor(1, 0, 0, 0.5)  -- Set color to red with 50% transparency
+        --love.graphics.rectangle("line", px - 4, py + 7, 8, 2)
+        --love.graphics.setColor(1, 1, 1, 1) 
+ -- Res
     end
 end
 
@@ -138,6 +162,12 @@ function player.getPosition()
     end
 end
 
+function player.setX(player, x)
+    if player.body then
+        player.body:setX(x)
+    end
+end
+
 -- Função de pegar a direção do jogador.
 -- Usado para definir a direção da animação do jogador.
 function player.getDirection()
@@ -146,17 +176,15 @@ function player.getDirection()
     end
 end
 
-function player.jump(key, world)
-    if player.body and key == 'up' then
-        local colliders = world:queryRectangleArea(
-            player.body:getX() - 5, 
-            player.body:getY() + 10, 
-            10, 
-            5, 
-            {'Platform', 'Bubble'}
-        )
+function player.jump(world)
+    if player.body and player.jumpTimer <= 0 then
+        local px, py = player.body:getPosition()
+        local colliders = world:queryRectangleArea(px - 4, py + 7, 8, 2, {'Platform', 'Bubble'})
+
         if #colliders > 0 then
-            player.body:applyLinearImpulse(0, -10)
+            player.body:applyLinearImpulse(0, -48)
+            player.isJumping = true
+            player.jumpTimer = player.jumpCooldown  -- Reset jump timer
         end
     end
 end
@@ -213,6 +241,14 @@ function player.makePlayerMovable()
     player.canMove = true
 end
 
+function player.isInBubble()
+    return player.inBubble
+end
+
+function player.setInBubble(state)
+    player.inBubble = state
+end
+
 function player.isMovable()
     return player.canMove
 end
@@ -227,6 +263,10 @@ end
 
 function player.getReturnZone()
     return player.inReturnZone
+end
+
+function player.isJumping()
+    return player.isJumping
 end
 
 function player.getTransportZone()

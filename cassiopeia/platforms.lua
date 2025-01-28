@@ -26,6 +26,10 @@ function platforms.setupBubbles(world)
     bubbles = {}
 end
 
+function platforms.getQueryRectangle(world)
+    return world:queryRectangleArea()
+end
+
 -- Função de spawn de plataformas. Cria um retângulo de colisão com as dimensões passadas.
 -- Para cada plataforma criada, adiciona na tabela de plataformas.
 

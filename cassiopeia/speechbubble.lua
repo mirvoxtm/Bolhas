@@ -5,7 +5,6 @@ local player = require "player"
 function dialogLoad()
     w, h = 1080, 720
     love.window.setMode(w, h)
-    love.window.setTitle("Speechbubble")
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     local font = love.graphics.newFont("src/fnt/gohufont-11.ttf", 11)

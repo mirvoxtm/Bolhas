@@ -5,7 +5,7 @@ local wf = require 'libs/windfield'
 -- Essa aqui é a definição de nossas classes de colisão.
 
 local function setupWorld()
-    local world = wf.newWorld(0, 500, false)
+    local world = wf.newWorld(0, 420, false)
 
     world:addCollisionClass('Platform')
     world:addCollisionClass('Non-collide')

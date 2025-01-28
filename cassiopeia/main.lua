@@ -35,6 +35,7 @@ function love.load()
 
     -- Timer
     bolhaTimer = {cooldown = 5, current = 0}
+    bolhaCool = {cooldown = 1, current = 0}
 
     fade = false
    
@@ -68,15 +69,20 @@ function love.update(dt)
         local bx, by = bubble:getPosition()
     
         if player.body:enter('Bubble') then
-            if py < by then
-                bubble:setType('static')
-                bubble:setGravityScale(0)
-            else
-                bubble:setType('dynamic')
-            end
+            player.setInBubble(true)
+        end
+
+        if player.isInBubble() then
+            bubble:setType('static')
+            bubble:setGravityScale(0)
+        else
+            bubble:setGravityScale(0)
+            bubble:setType('dynamic')
         end
     
         if player.body:exit('Bubble') then
+            player.setInBubble(false)
+
             if bubble:getType() ~= 'static' then
                 bubble:setType('dynamic')
             end
@@ -121,7 +127,7 @@ end
 function love.draw()
 
     if fade == false then
-        for i = 0, 100, 1 do
+        for i = 0, 50, 1 do
             love.graphics.setColor(0, 0, 0, 0.1)
             love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
             love.graphics.present()
@@ -174,10 +180,10 @@ function love.draw()
             gameMap:drawLayer(gameMap.layers["Foreground"])
         end
 
-        --if love.keyboard.isDown('c') then
-        --    gameMap:drawLayer(gameMap.layers["Transport"])
-        --    world:draw()
-        --end
+        if love.keyboard.isDown('c') then
+            gameMap:drawLayer(gameMap.layers["Platforms"])
+            world:draw()
+        end
         
 
     camera:detach()
@@ -249,7 +255,11 @@ end
 
 function love.keypressed(key)
     if key == 'up' then
-        love.audio.newSource("src/sfx/jump.mp3", "static"):play()
+        if player.body and player.jumpTimer <= 0 then
+            if player.isMovable() then
+                love.audio.newSource("src/sfx/jump.mp3", "static"):play()
+            end
+        end
     end
 
     if key == 'down' and player.isMovable() then
@@ -267,22 +277,36 @@ function love.keypressed(key)
     player.dialog(key, world, dialogos)
 
     if player.getLevel() ~= 0 and player.getLevel() ~= 1 then
-        if key == 'z' and player.getBubbleState() == false then
-        bolhaTimer.current = love.timer.getTime(bolhaTimer)
 
-        love.audio.newSource("src/sfx/bubble.mp3", "static"):play()
-        player.setBubbleState(true)
-        px, py = player.getCurrentPosition()
         
-        if player.getDirection() == -1 then
-            bubble = platforms.spawnBubble(world, px - 20, py - 6, 10, 10, 'Bubble')
-        else
-            bubble = platforms.spawnBubble(world, px + 10, py - 6, 10, 10, 'Bubble')
-        end
+        if key == 'z' and player.getBubbleState() == false then
+            setBubble()
+            bolhaCool.current = love.timer.getTime(bolhaCool)
 
-        bubble.animation = animations.bubbleIdle
-        bubble.animation:gotoFrame(1)
-
+        elseif key == 'z' and player.getBubbleState() == true then
+            if love.timer.getTime() - bolhaCool.current >= bolhaCool.cooldown then
+                platforms.destroyBubble()
+                player.setBubbleState(false)
+                setBubble()
+                bolhaCool.current = love.timer.getTime(bolhaCool)
+            end
         end
     end
+end
+
+function setBubble()
+    bolhaTimer.current = love.timer.getTime(bolhaTimer)
+
+    love.audio.newSource("src/sfx/bubble.mp3", "static"):play()
+    player.setBubbleState(true)
+    px, py = player.getCurrentPosition()
+    
+    if player.getDirection() == -1 then
+        bubble = platforms.spawnBubble(world, px - 20, py - 6, 15, 15, 'Bubble')
+    else
+        bubble = platforms.spawnBubble(world, px + 10, py - 6, 15, 15, 'Bubble')
+    end
+
+    bubble.animation = animations.bubbleIdle
+    bubble.animation:gotoFrame(1)
 end
